@@ -22,7 +22,7 @@ async function fetchDelegateData() {
       data.forEach(delegate => {
          if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0) {
             let address = delegate.address;
-            let alias = delegate.alias || 'No alias';
+            let alias = delegate.alias || delegate.address;
             let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
@@ -108,9 +108,9 @@ function applyFilter() {
    }
 
    if (showAliasBakers) {
-      filteredBakers = filteredBakers.filter(delegate => delegate.name !== 'No alias');
+      filteredBakers = filteredBakers.filter(delegate => delegate.name !== delegate.address);
    } else {
-      filteredBakers = filteredBakers.filter(delegate => delegate.name === 'No alias');
+      filteredBakers = filteredBakers.filter(delegate => delegate.name === delegate.address);
    }
 
    const tableBody = table.querySelector('tbody');
