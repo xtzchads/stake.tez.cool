@@ -32,8 +32,8 @@ async function fetchDelegateData() {
 
             // Determine color based on percentage
             let percentage = currentValue / maxValue * 100;
-			if (maxValue==0)
-				percentage=100;
+	    if (maxValue==0)
+	       percentage=100;
             let colorClass = '';
             if (percentage <= 50) {
                colorClass = 'bg-success';
@@ -58,8 +58,8 @@ async function fetchDelegateData() {
 
                // Determine color based on percentage
                let percentage = currentValue / maxValue * 100;
-			   if (maxValue==0)
-				percentage=100;
+	       if (maxValue==0)
+		  percentage=100;
                let colorClass = '';
                if (percentage <= 50) {
                   colorClass = 'bg-success';
