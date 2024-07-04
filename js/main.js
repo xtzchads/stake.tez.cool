@@ -218,6 +218,36 @@ async function unstakeTez() {
    }
 }
 
+async function finalunstakeTez() {
+   try {
+      if (!permissions?.address) {
+         permissions = await client.requestPermissions();
+         checkActiveSession();
+      }
+      const operation = [{
+         amount: "0",
+         kind: beacon.TezosOperationType.TRANSACTION,
+         source: permissions.address,
+         destination: permissions.address,
+         parameters: {
+            entrypoint: "finalize_unstake",
+            value: {
+               "prim": "Unit"
+            }
+         }
+      }];
+
+      const response = await client.requestOperation({
+         operationDetails: operation
+      });
+      showNotification(`Successfully unstaked ${amount} tez. Transaction hash: ${response.transactionHash}`);
+      amountInput.value = '';
+   } catch (error) {
+      console.error('Error unstaking tez:', error);
+      showNotification('Failed to unstake tez. Please try again.', true);
+   }
+}
+
 async function delegateTez(address) {
    try {
       if (!permissions?.address) {
