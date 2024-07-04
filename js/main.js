@@ -283,32 +283,62 @@ function showNotification(message, isError = false) {
    }, 10000);
 }
 
-async function checkActiveSession() {
-   const walletInfoDiv = document.getElementById('wallet');
-   const activeAccount = await client.getActiveAccount();
-   if (activeAccount) {
-      // Active session found
-      permissions = {
-         address: activeAccount.address
-      };
-      wallet.style.display = 'flex';
-      displayWalletInfo(DOMPurify.sanitize(activeAccount.address));
-   } else
-      wallet.style.display = 'none'; // Hide walletInfo if no active session
-
+async function connectWallet() {
+    try {
+        if (!permissions?.address) {
+            permissions = await client.requestPermissions();
+            checkActiveSession();
+        }
+    } catch (error) {
+        console.error('Error connecting wallet:', error);
+        showNotification('Failed to connect wallet. Please try again.', true);
+    }
 }
 
-function displayWalletInfo(address) {
-   const walletInfoDiv = document.getElementById('walletInfo');
-   walletInfoDiv.innerHTML = `<span>${address}</span>`;
+async function checkActiveSession() {
+    const walletInfoDiv = document.getElementById('walletInfo');
+    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const activeAccount = await client.getActiveAccount();
+    if (activeAccount) {
+        // Active session found
+        permissions = {
+            address: activeAccount.address
+        };
+        wallet.style.display = 'flex';
+		const apiUrl = `https://api.tzkt.io/v1/accounts/${activeAccount.address}`;
+        try {
+            const response = await fetch(apiUrl);
+            const accountData = await response.json();
+            const { balance, stakedBalance, unstakedBalance, delegate} = accountData;
+			displayWalletInfo(DOMPurify.sanitize(activeAccount.address), balance, stakedBalance, unstakedBalance, delegate);
+        } catch (error) {
+            console.error('Error fetching account data:', error);
+            showNotification('Failed to fetch account data. Please try again.', true);
+        }
+        disconnectWalletBtn.style.display = 'block';
+        connectWalletBtn.style.display = 'none';
+    } else {
+        //wallet.style.display = 'none'; // Hide walletInfo if no active session
+        disconnectWalletBtn.style.display = 'none';
+        connectWalletBtn.style.display = 'block';
+    }
 }
 
 async function disconnectWallet() {
-   await client.clearActiveAccount();
-   const walletInfoDiv = document.getElementById('walletInfo');
-   walletInfoDiv.innerHTML = '';
-   permissions = null;
+    await client.clearActiveAccount();
+    const walletInfoDiv = document.getElementById('walletInfo');
+    walletInfoDiv.innerHTML = '';
+    permissions = null;
+    checkActiveSession();
 }
+
+
+function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, baker) {
+   const walletInfoDiv = document.getElementById('walletInfo');
+   walletInfoDiv.innerHTML = `<span class="badge bg-secondary">${address}</span><span class="badge bg-primary">Balance: ${balance / 1000000} &#xA729;</span><span class="badge bg-primary">Staked: ${stakedBalance / 1000000} &#xA729;</span><span class="badge bg-primary">Unstaked: ${unstakedBalance / 1000000} &#xA729;</span><span class="badge ${baker?.address?"bg-success":"bg-warning"}">Baker: ${baker?.address}</span>`;
+}
+
 
 // Initial fetch and periodic update
 fetchDelegateData();
