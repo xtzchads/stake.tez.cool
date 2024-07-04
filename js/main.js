@@ -254,7 +254,7 @@
                 // Active session found
                 permissions = {address: activeAccount.address};
                 wallet.style.display = 'flex';
-                displayWalletInfo(activeAccount.address);
+                displayWalletInfo(DOMPurify.sanitize(activeAccount.address));
             }
             else
                 wallet.style.display = 'none'; // Hide walletInfo if no active session
