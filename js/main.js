@@ -13,7 +13,7 @@ async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
    const feeHeader = document.getElementById('feeHeader');
    const table = document.getElementById('delegateTable');
-   table.style.display = 'none';
+   //table.style.display = 'none';
 
    try {
       let bakers = await fetch('https://api.tzkt.io/v1/delegates?limit=10000&active=true');
@@ -283,6 +283,6 @@ async function disconnectWallet() {
 
 // Initial fetch and periodic update
 fetchDelegateData();
-setInterval(fetchDelegateData, 60000);
+setInterval(fetchDelegateData, 120000);
 
 document.addEventListener('DOMContentLoaded', checkActiveSession);
