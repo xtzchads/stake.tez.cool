@@ -53,6 +53,7 @@
         .btn-primary {
             background-color: #0F61FF;
             border-color: #0F61FF;
+            padding: .375rem .75rem;
         }
 
         .btn-primary:hover {
@@ -63,6 +64,7 @@
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
+            padding: .375rem .75rem;
         }
 
         .btn-secondary:hover {
