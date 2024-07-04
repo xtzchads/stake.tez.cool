@@ -34,7 +34,7 @@
                         allBakers.push({
                             address: address,
 			    name: alias,
-                            alias: "<a href='https://tzkt.io/" + DOMPurify.sanitize(address) + "' target='_blank'>" + DOMPurify.sanitize(alias) + "</a>",
+                            alias: "<a href=\"https://tzkt.io/" + DOMPurify.sanitize(address) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + DOMPurify.sanitize(alias) + "</a>",
                             balance: parseInt(balance),
                             edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%"
                         });
