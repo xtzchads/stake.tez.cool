@@ -91,6 +91,7 @@ async function fetchDelegateData() {
       }
       applyFilter();
    });
+checkActiveSession();
 }
 
 function applyFilter() {
