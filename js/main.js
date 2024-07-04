@@ -13,27 +13,27 @@ async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
    const feeHeader = document.getElementById('feeHeader');
    const table = document.getElementById('delegateTable');
-   //table.style.display = 'none';
 
    try {
       let bakers = await fetch('https://api.tzkt.io/v1/delegates?limit=10000&active=true');
       let data = await bakers.json();
-      allBakers = [];
-      data.forEach(delegate => {
-         if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0) {
-            let address = delegate.address;
-            let alias = delegate.alias || 'No alias';
-            let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
-            let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
+
+      // Update existing entries in allBakers or add new entries
+      data.forEach(delegateData => {
+         let existingBaker = allBakers.find(baker => baker.address === delegateData.address);
+         if (existingBaker) {
+            // Update existing entry
+            existingBaker.balance = parseInt((delegateData.stakedBalance * delegateData.limitOfStakingOverBaking / 1000000 - delegateData.externalStakedBalance) / 1000000);
+            existingBaker.edgeOfBakingOverStaking = (delegateData.edgeOfBakingOverStaking / 10000000).toFixed(2)+"%";
 
             // Calculate progress bar values
-            let maxValue = delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 / 1000000;
-            let currentValue = delegate.externalStakedBalance / 1000000;
+            let maxValue = delegateData.stakedBalance * delegateData.limitOfStakingOverBaking / 1000000 / 1000000;
+            let currentValue = delegateData.externalStakedBalance / 1000000;
 
             // Determine color based on percentage
             let percentage = currentValue / maxValue * 100;
-            if (maxValue==0)
-				   percentage=100;
+			if (maxValue==0)
+				percentage=100;
             let colorClass = '';
             if (percentage <= 50) {
                colorClass = 'bg-success';
@@ -43,55 +43,58 @@ async function fetchDelegateData() {
                colorClass = 'bg-danger';
             }
 
-            allBakers.push({
-               address: address,
-               name: alias,
-               alias: `<a href="https://tzkt.io/${DOMPurify.sanitize(address)}" target="_blank" rel="noopener noreferrer">${DOMPurify.sanitize(alias)}</a>`,
-               balance: parseInt(balance),
-               edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
-               progressBar: `<div class="progress">
-                            <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
-                         </div>`
-            });
+            existingBaker.progressBar = `<div class="progress">
+                                          <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
+                                       </div>`;
+         } else {
+            // Add new entry if not already in allBakers
+            if (delegateData.limitOfStakingOverBaking && delegateData.limitOfStakingOverBaking > 0) {
+               let balance = ((delegateData.stakedBalance * delegateData.limitOfStakingOverBaking / 1000000 - delegateData.externalStakedBalance) / 1000000).toFixed(6);
+               let edgeOfBakingOverStaking = (delegateData.edgeOfBakingOverStaking / 10000000).toFixed(2);
+
+               // Calculate progress bar values
+               let maxValue = delegateData.stakedBalance * delegateData.limitOfStakingOverBaking / 1000000 / 1000000;
+               let currentValue = delegateData.externalStakedBalance / 1000000;
+
+               // Determine color based on percentage
+               let percentage = currentValue / maxValue * 100;
+			   if (maxValue==0)
+				percentage=100;
+               let colorClass = '';
+               if (percentage <= 50) {
+                  colorClass = 'bg-success';
+               } else if (percentage <= 75) {
+                  colorClass = 'bg-warning';
+               } else {
+                  colorClass = 'bg-danger';
+               }
+
+               allBakers.push({
+                  address: delegateData.address,
+                  name: delegateData.alias || 'No alias',
+                  alias: `<a href="https://tzkt.io/${DOMPurify.sanitize(delegateData.address)}" target="_blank" rel="noopener noreferrer">${DOMPurify.sanitize(delegateData.alias || 'No alias')}</a>`,
+                  balance: parseInt(balance),
+                  edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
+                  progressBar: `<div class="progress">
+                                 <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
+                              </div>`
+               });
+            }
          }
       });
 
       // Sort the data by balance in descending order
       allBakers.sort((a, b) => b.balance - a.balance);
 
-      filteredBakers = allBakers;
+      // Apply current filters and sorting
       applyFilter();
    } catch (error) {
       console.error('Error fetching delegate data:', error);
    } finally {
       table.style.display = 'table';
    }
-   let sortDirection = {
-      freeSpace: 'desc',
-      fee: 'desc'
-   };
-   freeSpaceHeader.addEventListener('click', () => {
-      if (sortDirection.freeSpace === 'desc') {
-         allBakers.sort((a, b) => a.balance - b.balance);
-         sortDirection.freeSpace = 'asc';
-      } else {
-         allBakers.sort((a, b) => b.balance - a.balance);
-         sortDirection.freeSpace = 'desc';
-      }
-      applyFilter();
-   });
-
-   feeHeader.addEventListener('click', () => {
-      if (sortDirection.fee === 'desc') {
-         allBakers.sort((a, b) => a.edgeOfBakingOverStaking.slice(0, -1) - b.edgeOfBakingOverStaking.slice(0, -1));
-         sortDirection.fee = 'asc';
-      } else {
-         allBakers.sort((a, b) => b.edgeOfBakingOverStaking.slice(0, -1) - a.edgeOfBakingOverStaking.slice(0, -1));
-         sortDirection.fee = 'desc';
-      }
-      applyFilter();
-   });
 }
+
 
 function applyFilter() {
    const table = document.getElementById('delegateTable');
