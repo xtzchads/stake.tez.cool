@@ -34,7 +34,7 @@
                         allBakers.push({
                             address: address,
 			    name: alias,
-                            alias: "<a href='https://tzkt.io/" + address + "' target='_blank'>" + DOMPurify.sanitize(alias) + "</a>",
+                            alias: "<a href='https://tzkt.io/" + DOMPurify.sanitize(address) + "' target='_blank'>" + DOMPurify.sanitize(alias) + "</a>",
                             balance: parseInt(balance),
                             edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%"
                         });
@@ -118,7 +118,7 @@
                 cell2.innerHTML = delegate.alias;
                 cell3.textContent = delegate.balance;
                 cell4.textContent = delegate.edgeOfBakingOverStaking;
-                cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + delegate.address + "', this)\">Delegate</button>";
+                cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Delegate</button>";
             });
         }
 
