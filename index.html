@@ -124,6 +124,15 @@
         .notification.show {
             opacity: 1;
         }
+
+        .icon-link {
+            margin-top: 10px;
+        }
+
+        .icon-link img {
+            width: 30px;
+            height: 30px;
+        }
     </style>
 </head>
 
@@ -181,22 +190,22 @@
                                 </div>
                             </div>
                         </div>
-			<div class="table-responsive">
-                        <table class="table table-striped table-hover" id="delegateTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Alias</th>
-                                    <th id="freeSpaceHeader" scope="col" style="cursor: pointer;">Free Space</th>
-                                    <th id="feeHeader" scope="col" style="cursor: pointer;">Fee (%)</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Table rows will be dynamically populated -->
-                            </tbody>
-                        </table>
-			</div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="delegateTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Alias</th>
+                                        <th id="freeSpaceHeader" scope="col" style="cursor: pointer;">Free Space</th>
+                                        <th id="feeHeader" scope="col" style="cursor: pointer;">Fee (%)</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Table rows will be dynamically populated -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,6 +230,14 @@
                         </ul>
                     </div>
                 </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">GitHub</h5>
+                        <a href="https://github.com/xtzchad/up.xtzchad.xyz" class="icon-link" target="_blank">
+                            <img src="icons/Tezos-social-icon-black-04.png" alt="Tezos Icon" />
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -241,10 +258,10 @@
         let filteredBakers = [];
         let client = new beacon.DAppClient({name: 'Staking Assistant'});
         let permissions;
-		client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
-  // An active account has been set, update the dApp UI
-  checkActiveSession();
-});
+        client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
+            // An active account has been set, update the dApp UI
+            checkActiveSession();
+        });
 
         async function fetchDelegateData() {
             const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -272,7 +289,7 @@
 
                         allBakers.push({
                             address: address,
-                            alias: "<a href='https://tzkt.io/"+address+"' target='_blank'>"+alias+"</a>",
+                            alias: "<a href='https://tzkt.io/" + address + "' target='_blank'>" + alias + "</a>",
                             balance: parseInt(balance),
                             edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%"
                         });
