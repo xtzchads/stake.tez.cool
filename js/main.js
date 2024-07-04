@@ -119,13 +119,11 @@ function applyFilter() {
       let cell2 = row.insertCell(1);
       let cell3 = row.insertCell(2);
       let cell4 = row.insertCell(3);
-      let cell5 = row.insertCell(4);
 
-      cell1.textContent = delegate.address;
-      cell2.innerHTML = delegate.alias;
-      cell3.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
-      cell4.textContent = delegate.edgeOfBakingOverStaking;
-      cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Delegate</button>";
+      cell1.innerHTML = delegate.alias;
+      cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
+      cell3.textContent = delegate.edgeOfBakingOverStaking;
+      cell4.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Delegate</button>";
    });
 }
 
