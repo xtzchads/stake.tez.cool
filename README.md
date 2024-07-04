@@ -4,15 +4,18 @@ Staking Assistant is a web application designed to help users stake or unstake t
 
 ## Features
 
-- Stake or unstake Tezos with your current baker.
+- Stake or unstake Tezos with your current baker
 - View available bakers and their details such as address, alias, free space, and fee.
-- Filtering and sorting.
-- Set a delegate.
+- Filtering and sorting
+- Set a delegate
+- See your staking data if you have active Beacon session (connected wallet)
+- Data is refreshing each two minutes
 
 ## Technologies Used
 
 - HTML, CSS, JavaScript
 - Beacon SDK
+- TZKT API
 
 ## License
 
