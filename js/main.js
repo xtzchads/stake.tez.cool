@@ -336,7 +336,7 @@ async function disconnectWallet() {
 
 function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, baker) {
    const walletInfoDiv = document.getElementById('walletInfo');
-   const found = allBakers.find(bakerdata => bakerdata.address === baker);
+   const found = allBakers.find(bakerdata => bakerdata.address === baker?.address);
    walletInfoDiv.innerHTML = `<span class="badge bg-secondary">${address}</span><span class="badge bg-primary">Balance: ${balance / 1000000} &#xA729;</span><span class="badge bg-primary">Staked: ${stakedBalance / 1000000} &#xA729;</span><span class="badge bg-primary">Unstaked: ${unstakedBalance / 1000000} &#xA729;</span><span class="badge ${baker?.address?(found?"bg-success":"bg-warning"):"bg-danger"}">Baker: ${found?"<a href=\"https://tzkt.io/${found.address}\" target=\"_blank\" rel=\"noopener noreferrer\">${DOMPurify.sanitize(found.alias)}</a>":baker?.address}</span>`;
 }
 
