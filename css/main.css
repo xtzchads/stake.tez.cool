@@ -1,1 +1,124 @@
+ body {
+            font-family: "GT Eesti Pro Display Regular", sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* Ensure body takes at least full viewport height */
+        }
 
+        main {
+            flex-grow: 1;
+            /* Allow main content to grow and take remaining space */
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+
+            bottom: 0;
+            /* Position the footer at the bottom of the viewport */
+        }
+
+        header {
+            background-color: #0F61FF;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            padding: 1em 0;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .card {
+            border: none;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: #0F61FF;
+            border-color: #0F61FF;
+        }
+
+        .btn-primary:hover {
+            background-color: #003EE0;
+            border-color: #003EE0;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .table {
+            font-size: 0.9rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #0F61FF;
+            border-color: #0F61FF;
+        }
+
+        .form-check-input:checked+.form-check-label {
+            color: #0F61FF;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+        }
+
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        .icon-link {
+            margin-top: 10px;
+        }
+
+        .icon-link img {
+            width: 30px;
+            height: 30px;
+        }
