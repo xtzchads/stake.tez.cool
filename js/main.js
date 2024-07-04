@@ -240,11 +240,10 @@ async function finalunstakeTez() {
       const response = await client.requestOperation({
          operationDetails: operation
       });
-      showNotification(`Successfully unstaked ${amount} tez. Transaction hash: ${response.transactionHash}`);
-      amountInput.value = '';
+      showNotification(`Successfully finalized unstake. Transaction hash: ${response.transactionHash}`);
    } catch (error) {
       console.error('Error unstaking tez:', error);
-      showNotification('Failed to unstake tez. Please try again.', true);
+      showNotification('Failed. Please try again.', true);
    }
 }
 
