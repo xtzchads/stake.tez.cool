@@ -288,6 +288,7 @@
 
                         allBakers.push({
                             address: address,
+							name: alias,
                             alias: "<a href='https://tzkt.io/" + address + "' target='_blank'>" + alias + "</a>",
                             balance: parseInt(balance),
                             edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%"
@@ -350,9 +351,9 @@
             }
 
             if (showAliasBakers) {
-                filteredBakers = filteredBakers.filter(delegate => delegate.alias !== 'No alias');
+                filteredBakers = filteredBakers.filter(delegate => delegate.name !== 'No alias');
             } else {
-                filteredBakers = filteredBakers.filter(delegate => delegate.alias === 'No alias');
+                filteredBakers = filteredBakers.filter(delegate => delegate.name === 'No alias');
             }
 
             // Clear the table body
