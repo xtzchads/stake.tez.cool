@@ -3,6 +3,7 @@ let filteredBakers = [];
 let client = new beacon.DAppClient({
    name: 'Staking Assistant'
 });
+let flag = false;
 let permissions;
 
 async function fetchDelegateData() {
@@ -87,6 +88,7 @@ async function fetchDelegateData() {
       }
       applyFilter();
    });
+      flag = true;
       checkActiveSession();
 }
 
@@ -348,5 +350,6 @@ function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, bak
 fetchDelegateData();
 setInterval(fetchDelegateData, 120000);
 client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
+    if (flag)
     checkActiveSession();
 });
