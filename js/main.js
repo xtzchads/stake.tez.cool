@@ -331,6 +331,7 @@ async function disconnectWallet() {
     const walletInfoDiv = document.getElementById('walletInfo');
     walletInfoDiv.innerHTML = '';
     permissions = null;
+    document.getElementById('staking').style.display='none';
     checkActiveSession();
 }
 
