@@ -4,10 +4,6 @@ let client = new beacon.DAppClient({
    name: 'Staking Assistant'
 });
 let permissions;
-client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
-   // An active account has been set, update the dApp UI
-   checkActiveSession();
-});
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -61,7 +57,6 @@ async function fetchDelegateData() {
 
       filteredBakers = allBakers;
       applyFilter();
-      checkActiveSession();
    } catch (error) {
       console.error('Error fetching delegate data:', error);
    } finally {
@@ -92,6 +87,7 @@ async function fetchDelegateData() {
       }
       applyFilter();
    });
+      checkActiveSession();
 }
 
 function applyFilter() {
@@ -346,4 +342,7 @@ function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, bak
 
 // Initial fetch and periodic update
 fetchDelegateData();
+client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
+   checkActiveSession();
+});
 setInterval(fetchDelegateData, 120000);
