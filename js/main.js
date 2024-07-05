@@ -347,5 +347,3 @@ function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, bak
 // Initial fetch and periodic update
 fetchDelegateData();
 setInterval(fetchDelegateData, 120000);
-
-document.addEventListener('DOMContentLoaded', checkActiveSession);
