@@ -308,7 +308,7 @@ async function checkActiveSession() {
         permissions = {
             address: activeAccount.address
         };
-        wallet.style.display = 'flex';
+        walletInfoDiv.style.display = 'block';
 	const apiUrl = `https://api.tzkt.io/v1/accounts/${activeAccount.address}`;
         try {
             const response = await fetch(apiUrl);
@@ -322,7 +322,7 @@ async function checkActiveSession() {
         disconnectWalletBtn.style.display = 'block';
         connectWalletBtn.style.display = 'none';
     } else {
-        //wallet.style.display = 'none'; // Hide walletInfo if no active session
+        walletInfoDiv.style.display = 'none'; // Hide walletInfo if no active session
         disconnectWalletBtn.style.display = 'none';
         connectWalletBtn.style.display = 'block';
     }
@@ -332,6 +332,7 @@ async function disconnectWallet() {
     await client.clearActiveAccount();
     const walletInfoDiv = document.getElementById('walletInfo');
     walletInfoDiv.innerHTML = '';
+    walletInfoDiv.style.display='none';
     permissions = null;
     document.getElementById('staking').style.display='none';
     checkActiveSession();
