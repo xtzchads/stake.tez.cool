@@ -346,7 +346,9 @@ function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, bak
 
 // Initial fetch and periodic update
 fetchDelegateData();
-client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
-   checkActiveSession();
-});
 setInterval(fetchDelegateData, 120000);
+window.addEventListener('load', (event) => {
+    client.subscribeToEvent(beacon.BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
+    checkActiveSession();
+});
+});
