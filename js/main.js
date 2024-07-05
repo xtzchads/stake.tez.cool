@@ -124,7 +124,7 @@ function applyFilter() {
       cell1.innerHTML = delegate.alias;
       cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
       cell3.textContent = delegate.edgeOfBakingOverStaking;
-      cell4.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Delegate</button>";
+      cell4.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>";
    });
 }
 
