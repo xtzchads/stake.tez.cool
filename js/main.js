@@ -175,6 +175,7 @@ async function stakeTez() {
          operationDetails: operation
       });
       showNotification(`Successfully staked ${amount} tez. Transaction hash: ${response.transactionHash}`);
+      setTimeout(checkActiveSession, 15000);
       amountInput.value = '';
    } catch (error) {
       console.error('Error staking tez:', error);
@@ -212,6 +213,7 @@ async function unstakeTez() {
    } catch (error) {
       console.error('Error unstaking tez:', error);
       showNotification('Failed to unstake tez. Please try again.', true);
+      setTimeout(checkActiveSession, 15000);
    }
 }
 
@@ -238,6 +240,7 @@ async function finalunstakeTez() {
          operationDetails: operation
       });
       showNotification(`Successfully finalized unstake. Transaction hash: ${response.transactionHash}`);
+      setTimeout(checkActiveSession, 15000);
    } catch (error) {
       console.error('Error unstaking tez:', error);
       showNotification('Failed. Please try again.', true);
@@ -259,6 +262,7 @@ async function delegateTez(address) {
          operationDetails: operation
       });
       showNotification(`Successfully delegated tez to ${address}. Transaction hash: ${response.transactionHash}`);
+      setTimeout(checkActiveSession, 15000);
    } catch (error) {
       console.error('Error delegating tez:', error);
       showNotification('Failed to delegate tez. Please try again.', true);
@@ -303,7 +307,7 @@ async function checkActiveSession() {
             address: activeAccount.address
         };
         wallet.style.display = 'flex';
-		const apiUrl = `https://api.tzkt.io/v1/accounts/${activeAccount.address}`;
+	const apiUrl = `https://api.tzkt.io/v1/accounts/${activeAccount.address}`;
         try {
             const response = await fetch(apiUrl);
             const accountData = await response.json();
