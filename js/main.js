@@ -61,6 +61,7 @@ async function fetchDelegateData() {
 
       filteredBakers = allBakers;
       applyFilter();
+      checkActiveSession();
    } catch (error) {
       console.error('Error fetching delegate data:', error);
    } finally {
@@ -91,7 +92,6 @@ async function fetchDelegateData() {
       }
       applyFilter();
    });
-checkActiveSession();
 }
 
 function applyFilter() {
