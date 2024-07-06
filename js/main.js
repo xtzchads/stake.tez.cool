@@ -5,6 +5,7 @@ let client = new beacon.DAppClient({
 });
 let flag = false;
 let permissions;
+let promoted = ["tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY"];
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -55,16 +56,13 @@ async function fetchDelegateData() {
 
       // Sort the data by balance in descending order
       allBakers.sort((a, b) => b.balance - a.balance);
-      let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === "tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY");
-        if (specialAddressIndex !== -1) {
-            let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
-            allBakers.unshift(specialDelegate);
-        }
-	specialAddressIndex = allBakers.findIndex(delegate => delegate.address === "tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH");
-        if (specialAddressIndex !== -1) {
-            let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
-            allBakers.unshift(specialDelegate);
-        }
+      promoted.forEach(promotedAddress => {
+   	 let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === promotedAddress);
+  	 if (specialAddressIndex !== -1) {
+         let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
+         allBakers.unshift(specialDelegate);
+   	 }
+	});
       filteredBakers = allBakers;
       applyFilter();
    } catch (error) {
