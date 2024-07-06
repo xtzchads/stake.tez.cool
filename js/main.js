@@ -5,7 +5,7 @@ let client = new beacon.DAppClient({
 });
 let flag = false;
 let permissions;
-let promoted = ["tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e"];
+let promoted = ["tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4"];
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
