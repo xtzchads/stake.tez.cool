@@ -9,6 +9,29 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
   <link href="css/dark-mode.css" rel="stylesheet" id="dark-mode-style">
+  <script>
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
+    const darkModeSwitchContainer = document.getElementById('darkModeSwitchContainer');
+    const darkModeStyle = document.getElementById('dark-mode-style');
+
+    function toggleDarkMode() {
+      if (darkModeSwitch.checked) {
+        document.body.classList.add('dark-mode');
+        darkModeStyle.href = 'css/dark-mode.css';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        document.body.classList.remove('dark-mode');
+        darkModeStyle.href = '';
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    }
+    const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+    darkModeSwitch.checked = darkModeEnabled;
+    if (darkModeEnabled) {
+      toggleDarkMode();
+    }
+    darkModeSwitch.addEventListener('change', toggleDarkMode);
+  </script>
   <script src="js/purify.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/walletbeacon.min.js"></script>
@@ -144,28 +167,5 @@
     </div>
   </footer>
   <script src="js/main.js"></script>
-  <script>
-    const darkModeSwitch = document.getElementById('darkModeSwitch');
-    const darkModeSwitchContainer = document.getElementById('darkModeSwitchContainer');
-    const darkModeStyle = document.getElementById('dark-mode-style');
-
-    function toggleDarkMode() {
-      if (darkModeSwitch.checked) {
-        document.body.classList.add('dark-mode');
-        darkModeStyle.href = 'css/dark-mode.css';
-        localStorage.setItem('darkMode', 'enabled');
-      } else {
-        document.body.classList.remove('dark-mode');
-        darkModeStyle.href = '';
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    }
-    const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
-    darkModeSwitch.checked = darkModeEnabled;
-    if (darkModeEnabled) {
-      toggleDarkMode();
-    }
-    darkModeSwitch.addEventListener('change', toggleDarkMode);
-  </script>
 </body>
 </html>
