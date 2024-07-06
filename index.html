@@ -92,29 +92,6 @@ header {
   </style>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="" rel="stylesheet" id="dark-mode-style">
-  <script>
-    const darkModeSwitch = document.getElementById('darkModeSwitch');
-    const darkModeSwitchContainer = document.getElementById('darkModeSwitchContainer');
-    const darkModeStyle = document.getElementById('dark-mode-style');
-
-    function toggleDarkMode() {
-      if (darkModeSwitch.checked) {
-        document.body.classList.add('dark-mode');
-        darkModeStyle.href = 'css/dark-mode.css?x=4.0';
-        localStorage.setItem('darkMode', 'enabled');
-      } else {
-        document.body.classList.remove('dark-mode');
-        darkModeStyle.href = '';
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    }
-    const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
-    darkModeSwitch.checked = darkModeEnabled;
-    if (darkModeEnabled) {
-      toggleDarkMode();
-    }
-    darkModeSwitch.addEventListener('change', toggleDarkMode);
-  </script>
   <link href="css/main.css?x=4.0" rel="stylesheet">
   <script src="js/purify.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
@@ -250,6 +227,29 @@ header {
       <p class="mb-0">&copy; 2024 Chad Staking Assistant. All chads reserved.</p>
     </div>
   </footer>
+  <script>
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
+    const darkModeSwitchContainer = document.getElementById('darkModeSwitchContainer');
+    const darkModeStyle = document.getElementById('dark-mode-style');
+
+    function toggleDarkMode() {
+      if (darkModeSwitch.checked) {
+        document.body.classList.add('dark-mode');
+        darkModeStyle.href = 'css/dark-mode.css?x=4.0';
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        document.body.classList.remove('dark-mode');
+        darkModeStyle.href = '';
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    }
+    const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+    darkModeSwitch.checked = darkModeEnabled;
+    if (darkModeEnabled) {
+      toggleDarkMode();
+    }
+    darkModeSwitch.addEventListener('change', toggleDarkMode);
+  </script>
   <script src="js/main.js?x=3.0"></script>
 </body>
 </html>
