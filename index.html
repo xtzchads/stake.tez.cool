@@ -100,7 +100,7 @@ header {
     function toggleDarkMode() {
       if (darkModeSwitch.checked) {
         document.body.classList.add('dark-mode');
-        darkModeStyle.href = 'css/dark-mode.css';
+        darkModeStyle.href = 'css/dark-mode.css?x=4.0';
         localStorage.setItem('darkMode', 'enabled');
       } else {
         document.body.classList.remove('dark-mode');
@@ -115,7 +115,7 @@ header {
     }
     darkModeSwitch.addEventListener('change', toggleDarkMode);
   </script>
-  <link href="css/main.css" rel="stylesheet">
+  <link href="css/main.css?x=4.0" rel="stylesheet">
   <script src="js/purify.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/walletbeacon.min.js"></script>
