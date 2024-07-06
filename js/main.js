@@ -55,7 +55,16 @@ async function fetchDelegateData() {
 
       // Sort the data by balance in descending order
       allBakers.sort((a, b) => b.balance - a.balance);
-
+      let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === "tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY");
+        if (specialAddressIndex !== -1) {
+            let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
+            allBakers.unshift(specialDelegate);
+        }
+	specialAddressIndex = allBakers.findIndex(delegate => delegate.address === "tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH");
+        if (specialAddressIndex !== -1) {
+            let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
+            allBakers.unshift(specialDelegate);
+        }
       filteredBakers = allBakers;
       applyFilter();
    } catch (error) {
