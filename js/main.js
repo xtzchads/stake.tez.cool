@@ -44,7 +44,7 @@ async function fetchDelegateData() {
             allBakers.push({
                address: address,
                name: alias,
-               alias: `<a href="https://tzkt.io/${DOMPurify.sanitize(address)}" target="_blank" rel="noopener noreferrer">${DOMPurify.sanitize(alias)}</a>`,
+               alias: `<a style="text-decoration:none" href="https://tzkt.io/${DOMPurify.sanitize(address)}" target="_blank" rel="noopener noreferrer"><img src="https://services.tzkt.io/v1/avatars/${DOMPurify.sanitize(address)}" style="width:32px;height:32px"/> ${DOMPurify.sanitize(alias)}</a>`,
                balance: parseInt(balance),
                edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
                progressBar: `<div class="progress">
