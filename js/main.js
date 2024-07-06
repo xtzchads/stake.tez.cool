@@ -60,6 +60,7 @@ async function fetchDelegateData() {
    	 let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === promotedAddress);
   	 if (specialAddressIndex !== -1) {
          let [specialDelegate] = allBakers.splice(specialAddressIndex, 1);
+	 specialDelegate.alias = `<span style="color: yellow">&#9733;</span> ${specialDelegate.alias}`;
          allBakers.unshift(specialDelegate);
    	 }
 	});
