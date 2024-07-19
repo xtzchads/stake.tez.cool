@@ -25,7 +25,7 @@ async function fetchDelegateData() {
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
             // Calculate progress bar values
-            let maxValue = delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 / 1000000;
+            let maxValue = delegate.stakedBalance * ((delegate.limitOfStakingOverBaking>5000000)?5000000:delegate.limitOfStakingOverBaking) / 1000000 / 1000000;
             let currentValue = delegate.externalStakedBalance / 1000000;
 
             // Determine color based on percentage
