@@ -21,12 +21,12 @@ async function fetchDelegateData() {
          if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0) {
             let address = delegate.address;
             let alias = delegate.alias || delegate.address;
+			if (delegate.limitOfStakingOverBaking>5000000)
+				delegate.limitOfStakingOverBaking=5000000;
             let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
             // Calculate progress bar values
-            if (delegate.limitOfStakingOverBaking>5000000)
-		delegate.limitOfStakingOverBaking=5000000;
             let maxValue = delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 / 1000000;
             let currentValue = delegate.externalStakedBalance / 1000000;
 
