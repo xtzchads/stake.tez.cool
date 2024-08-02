@@ -5,7 +5,7 @@ let client = new beacon.DAppClient({
 });
 let flag = false;
 let permissions;
-let promoted = ["tz1hZvgjekGo7DmQjWh7XnY5eLQD8wNYPczE","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4","tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8"];
+let promoted = ["tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4","tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8"];
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -188,7 +188,6 @@ async function stakeTez() {
       });
       showNotification(`Successfully staked ${amount} tez. Transaction hash: ${response.transactionHash}`);
       setTimeout(checkActiveSession, 15000);
-      amountInput.value = '';
    } catch (error) {
       console.error('Error staking tez:', error);
       showNotification('Failed to stake tez. Please try again.', true);
@@ -221,7 +220,6 @@ async function unstakeTez() {
          operationDetails: operation
       });
       showNotification(`Successfully unstaked ${amount} tez. Transaction hash: ${response.transactionHash}`);
-      amountInput.value = '';
    } catch (error) {
       console.error('Error unstaking tez:', error);
       showNotification('Failed to unstake tez. Please try again.', true);
