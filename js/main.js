@@ -5,7 +5,7 @@ let client = new beacon.DAppClient({
 });
 let flag = false;
 let permissions;
-let promoted = ["tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4","tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8"];
+let promoted = ["tz1hZvgjekGo7DmQjWh7XnY5eLQD8wNYPczE","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4","tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8"];
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -324,6 +324,10 @@ async function checkActiveSession() {
             const response = await fetch(apiUrl);
             const accountData = await response.json();
             const { balance, stakedBalance, unstakedBalance, delegate} = accountData;
+			if (unstakedBalance>0)
+				document.getElementById('finalize').disabled=false;
+			else
+				document.getElementById('finalize').disabled=true;
 			displayWalletInfo(DOMPurify.sanitize(activeAccount.address), balance, stakedBalance, unstakedBalance, delegate);
         } catch (error) {
             console.error('Error fetching account data:', error);
