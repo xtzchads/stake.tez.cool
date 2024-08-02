@@ -284,7 +284,7 @@ function showNotification(message, isError = false) {
     notification.classList.add('notification', isError ? 'error' : 'success');
     notification.textContent = message;
 
-    const container = document.getElementById("staking");
+    const container = document.getElementById("staking-body");
         container.appendChild(notification);
         notification.classList.add('show');
         setTimeout(() => {
