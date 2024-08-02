@@ -279,19 +279,21 @@ async function delegateTez(address) {
    }
 }
 
-function showNotification(message, isError = false) {
-   const notification = document.createElement('div');
-   notification.classList.add('notification', isError ? 'error' : 'success');
-   notification.textContent = message;
-   document.body.appendChild(notification);
-   notification.offsetHeight;
-   notification.classList.add('show');
-   setTimeout(() => {
-      notification.classList.remove('show');
-      setTimeout(() => {
-         notification.remove();
-      }, 500);
-   }, 10000);
+function showNotification(message, id, isError = false) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification', isError ? 'error' : 'success');
+    notification.textContent = message;
+
+    const container = document.getElementById("staking");
+        container.appendChild(notification);
+        notification.offsetHeight;
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 10000);
 }
 
 async function connectWallet() {
