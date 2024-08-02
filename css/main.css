@@ -94,6 +94,7 @@
 
         .notification {
             background-color: #4CAF50;
+            text-align:center;
             padding: 10px 20px;
             color: #fff;
             border-radius: 5px;
