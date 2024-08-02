@@ -279,14 +279,13 @@ async function delegateTez(address) {
    }
 }
 
-function showNotification(message, id, isError = false) {
+function showNotification(message, isError = false) {
     const notification = document.createElement('div');
     notification.classList.add('notification', isError ? 'error' : 'success');
     notification.textContent = message;
 
     const container = document.getElementById("staking");
         container.appendChild(notification);
-        notification.offsetHeight;
         notification.classList.add('show');
         setTimeout(() => {
             notification.classList.remove('show');
