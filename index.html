@@ -253,7 +253,7 @@ header {
 	    const unstakeButton = document.getElementById('unstake');
             const value = inputField.value;
 
-            if (value === '' || isNaN(value) || Number(value)<=0) {
+            if (value === '' || isNaN(value) || Number(value)<=0 || (value.split('.').length===2 && value.split('.')[1].length > 6))) {
                 stakeButton.disabled = true;
 		unstakeButton.disabled = true;
             } else {
