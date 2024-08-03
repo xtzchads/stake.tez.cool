@@ -250,15 +250,15 @@ header {
 	document.getElementById('amountInput').addEventListener('input', function() {
             const inputField = document.getElementById('amountInput');
             const stakeButton = document.getElementById('stake');
-			const unstakeButton = document.getElementById('unstake');
+	    const unstakeButton = document.getElementById('unstake');
             const value = inputField.value;
 
-            if (value === '' || isNaN(value) || !Number.isInteger(Number(value))) {
+            if (value === '' || isNaN(value) || Number(value)<=0) {
                 stakeButton.disabled = true;
-				unstakeButton.disabled = true;
+		unstakeButton.disabled = true;
             } else {
                 stake.disabled = false;
-				unstake.disabled = false;
+		unstake.disabled = false;
             }
         });
   </script>
