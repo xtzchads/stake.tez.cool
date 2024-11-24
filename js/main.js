@@ -18,7 +18,7 @@ async function fetchDelegateData() {
       let data = await bakers.json();
       allBakers = [];
       data.forEach(delegate => {
-         if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0 && delegate.address!=="tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM") {
+         if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0 && delegate.address!=="tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM" && delegate.address!=="tz1VQnqCCqX4K5sP3FNkVSNKTdCAMJDd3E1n") {
             let address = delegate.address;
             let alias = delegate.alias || delegate.address;
 			if (delegate.limitOfStakingOverBaking>5000000)
