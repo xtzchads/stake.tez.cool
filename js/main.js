@@ -1,7 +1,7 @@
 let allBakers = [];
 let filteredBakers = [];
 let client = new beacon.DAppClient({
-   name: 'Staking Assistant<p>'
+   name: 'Staking Assistant'
 });
 let flag = false;
 let permissions;
