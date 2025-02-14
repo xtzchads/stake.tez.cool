@@ -21,8 +21,8 @@ async function fetchDelegateData() {
          if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0) {
             let address = delegate.address;
             let alias = delegate.alias || delegate.address;
-			if (delegate.limitOfStakingOverBaking>5000000)
-				delegate.limitOfStakingOverBaking=5000000;
+			if (delegate.limitOfStakingOverBaking>9000000)
+				delegate.limitOfStakingOverBaking=9000000;
             let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
