@@ -3,153 +3,539 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Stake Tezos with ease using our Staking Assistant. Connect your wallet, choose from available bakers, and manage your staking options efficiently. Discover low-fee public bakers and more.">
-  <title>Tezos Staking</title>
-  <style>
-  body {
-  overflow-x:hidden;
-  font-family: "GT Eesti Pro Display Regular", sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex-grow: 1;
-}
-
-footer {
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  bottom: 0;
-}
-
-header {
-  width: 100%;
-  text-align: center;
-  padding: 1em 0;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.icon-link {
-}
-
-.icon-link img {
-  width: 30px;
-  height: 30px;
-}
-
-.form-check-label {
-  cursor: pointer;
-}
-
-.badge {
-  font-size: 0.8rem;
-}
-
-.main-content {
-  padding: 20px;
-}
-
-.card {
-  border: none;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.notification {
-  text-align:center;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: #fff;
-  border-radius: 5px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.notification.error {
-  background-color: #f44336;
-}
-
-.notification.show {
-  opacity: 1;
-}
-
-.table {
-  font-size: 0.9rem;
-}
-  </style>
+  <meta name="description" content="Stake Tezos with ease using our Staking Assistant. Connect your wallet, choose from available bakers, and manage your staking options efficiently.">
+  <title>ChadStake | Tezos Staking Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="" rel="stylesheet" id="dark-mode-style">
-  <link href="css/main.css?x=5.3" rel="stylesheet">
-  <script src="js/purify.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/walletbeacon.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #5D5FEF;
+      --primary-dark: #4446BD;
+      --accent-color: #FF6B6B;
+      --dark-color: #151531;
+      --light-color: #F8F9FF;
+      --card-bg: #FFFFFF;
+      --text-primary: #1F1F3D;
+      --text-secondary: #6E6E8F;
+      --gradient-bg: linear-gradient(135deg, #5D5FEF 0%, #8082FF 100%);
+      --card-shadow: 0 10px 30px rgba(93, 95, 239, 0.08);
+      --hover-shadow: 0 15px 35px rgba(93, 95, 239, 0.15);
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-color);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    main {
+      flex-grow: 1;
+    }
+
+    .container {
+      max-width: 1240px;
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+
+    /* Header styles */
+    header {
+      position: relative;
+      padding: 80px 0 120px;
+      background: var(--gradient-bg);
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+
+    .header-blob {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: var(--light-color);
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    header p {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Card styles */
+    .app-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+      border: none;
+    }
+
+    .app-card:hover {
+      box-shadow: var(--hover-shadow);
+    }
+
+    .card-top {
+      height: 6px;
+      background: var(--gradient-bg);
+    }
+
+    .card-content {
+      padding: 24px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 3px;
+    }
+
+    /* Button styles */
+    .btn-primary {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(93, 95, 239, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+      box-shadow: 0 8px 16px rgba(93, 95, 239, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--text-secondary);
+      border-color: var(--text-secondary);
+      color: white;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      filter: brightness(0.9);
+    }
+
+    .btn-outline-primary {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn-outline-danger {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline-danger:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    /* Table styles */
+    .table {
+      margin: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+    }
+
+    .table th {
+      font-weight: 600;
+      color: var(--text-primary);
+      background-color: rgba(93, 95, 239, 0.05);
+      border: none;
+      padding: 12px 16px;
+    }
+
+    .table td {
+      padding: 12px 16px;
+      border-top: 1px solid rgba(93, 95, 239, 0.08);
+      vertical-align: middle;
+    }
+
+    .table tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: rgba(93, 95, 239, 0.03);
+    }
+
+    /* Form styles */
+    .form-control {
+      border: 1px solid rgba(93, 95, 239, 0.2);
+      border-radius: 8px;
+      padding: 10px 16px;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(93, 95, 239, 0.25);
+    }
+
+    .form-check-input {
+      border: 1px solid rgba(93, 95, 239, 0.3);
+    }
+
+    .form-check-input:checked {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .form-switch .form-check-input {
+      height: 1.25rem;
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin: 0;
+    }
+
+    /* Notification */
+    .notification {
+      text-align: center;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-bottom: 16px;
+    }
+
+    .notification.error {
+      background-color: var(--accent-color);
+    }
+
+    .notification.show {
+      opacity: 1;
+    }
+
+    /* Status badge */
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background-color: rgba(46, 213, 115, 0.1);
+      color: #2ED573;
+    }
+
+    .status-inactive {
+      background-color: rgba(255, 107, 107, 0.1);
+      color: #FF6B6B;
+    }
+
+    /* Icon links */
+    .icon-link img {
+      width: 30px;
+      height: 30px;
+      transition: all 0.2s ease;
+    }
+
+    .icon-link:hover img {
+      transform: scale(1.15);
+    }
+
+    /* Tools section */
+    .tools-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Dark mode transition */
+    body, .app-card, .form-control, .btn, .table th, .table td {
+      transition: all 0.3s ease;
+    }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+    }
+
+    .mode-toggle span {
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      header {
+        padding: 60px 0 100px;
+      }
+      
+      header h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      header {
+        padding: 50px 0 80px;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .card-content {
+        padding: 16px;
+      }
+    }
+
+    /* Dark mode styles */
+    body.dark-mode {
+      background-color: var(--dark-color);
+      color: white;
+    }
+
+    body.dark-mode .app-card {
+      background-color: #1E1E42;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark-mode .card-title,
+    body.dark-mode .form-check-label {
+      color: white;
+    }
+
+    body.dark-mode .table th {
+      background-color: rgba(93, 95, 239, 0.15);
+      color: white;
+    }
+	
+	body.dark-mode .table td a {
+      color: white;
+    }
+
+    body.dark-mode .table td {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.9);
+	  background-color: rgba(93, 95, 239, 0.15);
+    }
+	
+	body.dark-mode .header-blob {
+      background-color: var(--dark-color);
+    }
+
+    body.dark-mode .table tbody tr:hover {
+      background-color: rgba(93, 95, 239, 0.08);
+    }
+
+    body.dark-mode .form-control {
+      background-color: #2A2A54;
+      border-color: #3A3A6E;
+      color: white;
+    }
+
+    body.dark-mode .text-secondary {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* Animation */
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header h1 {
+      animation: fadeInDown 0.8s ease forwards;
+    }
+
+    header p {
+      animation: fadeInDown 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    @keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .app-card {
+      animation: popUp 0.5s ease forwards;
+    }
+
+    .app-card:nth-child(1) { animation-delay: 0.1s; }
+    .app-card:nth-child(2) { animation-delay: 0.2s; }
+    .app-card:nth-child(3) { animation-delay: 0.3s; }
+    .app-card:nth-child(4) { animation-delay: 0.4s; }
+  </style>
 </head>
+
 <body>
-  <header class="bg-primary py-3 container mt-4 card-body rounded">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <h1 class="text-white mb-0 text-center">Staking Assistant</h1>
-      </div>
+  <header>
+    <div class="header-bg"></div>
+    <div class="container header-content">
+      <h1>ChadStake</h1>
+      <p>Optimize your Tezos staking strategy with analytical insights</p>
     </div>
+    <div class="header-blob"></div>
   </header>
-  <main class="container mt-4 g-0">
+
+  <main class="container" style="position: relative; z-index: 1;">
     <div class="row">
+      <!-- Main column - Staking and Baker List -->
       <div class="col-lg-8">
-        <div class="card shadow-sm mb-3" style="display:none" id="staking">
-          <div class="card-body" id="staking-body">
-            <div class="text-center">
-              <h4 class="mb-4">Stake or unstake tez with your <b>current</b> baker.</h4>
-            </div>
+        <!-- Staking Card -->
+        <div class="app-card" id="staking" style="display:none">
+          <div class="card-top"></div>
+          <div class="card-content" id="staking-body">
+            <h2 class="card-title">Stake or Unstake</h2>
+            <p class="mb-4 text-secondary">Manage your tez with your current baker</p>
+            
             <div class="row align-items-center mt-4">
               <div class="col-md-1"></div>
-              <div class="col-md-4 mb-2">
-                <input type="number" class="form-control form-control-md" id="amountInput" placeholder="Amount" onkeydown="return event.keyCode !== 69">
+              <div class="col-md-4 mb-3">
+                <input type="number" class="form-control" id="amountInput" placeholder="Amount" onkeydown="return event.keyCode !== 69">
               </div>
-              <div class="col-md-2 mb-2">
-                <button class="btn btn-primary btn-md w-100" id="stake" onclick="stakeTez()" disabled>Stake</button>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-primary w-100" id="stake" onclick="stakeTez()" disabled>
+                  <i class="fas fa-arrow-right"></i> Stake
+                </button>
               </div>
-              <div class="col-md-2 mb-2">
-                <button class="btn btn-secondary btn-md w-100" id="unstake" onclick="unstakeTez()" disabled>Unstake</button>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-secondary w-100" id="unstake" onclick="unstakeTez()" disabled>
+                  <i class="fas fa-arrow-left"></i> Unstake
+                </button>
               </div>
-              <div class="col-md-2 mb-2">
-                <button class="btn btn-secondary btn-md w-100" onclick="finalunstakeTez()" id="finalize" disabled>Finalize</button>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-secondary w-100" onclick="finalunstakeTez()" id="finalize" disabled>
+                  <i class="fas fa-check"></i> Finalize
+                </button>
               </div>
               <div class="col-md-1"></div>
             </div>
           </div>
         </div>
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <div class="row">
+
+        <!-- Available Bakers Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <div class="row mb-3">
               <div class="col">
-                <h5 class="card-title mb-3">Available Bakers</h5>
+                <h2 class="card-title">Available Bakers</h2>
               </div>
               <div class="col-auto">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAllBakers"
-                    onchange="applyFilter()">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAllBakers" onchange="applyFilter()">
                   <label class="form-check-label" for="toggleAllBakers">Low fees</label>
-
                 </div>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAliasBakers"
-                    onchange="applyFilter()">
+                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAliasBakers" onchange="applyFilter()">
                   <label class="form-check-label" for="toggleAliasBakers">Public bakers</label>
                 </div>
               </div>
             </div>
             <div class="table-responsive rounded">
-              <table class="table table-striped table-hover" id="delegateTable">
+              <table class="table" id="delegateTable">
                 <thead>
                   <tr>
                     <th scope="col">Alias</th>
@@ -159,109 +545,136 @@ header {
                   </tr>
                 </thead>
                 <tbody>
-
+                  <!-- Table content will be dynamically populated -->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div id="wallet" class="card shadow-sm mb-3">
-          <div class="card-body">
-            <div class="text-center mb-3" id="walletInfo" style="display:none">
 
+      <!-- Sidebar column -->
+      <div class="col-lg-4">
+        <!-- Wallet Card -->
+        <div class="app-card" id="wallet">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <h2 class="card-title">Your Wallet</h2>
+            <div class="text-center mb-3" id="walletInfo" style="display:none">
+              <!-- Wallet info will be inserted here -->
             </div>
-            <button class="btn btn-outline-danger w-100" onclick="disconnectWallet()" id="disconnectWalletBtn"
-              style="display: none;">Disconnect Wallet</button>
-            <button class="btn btn-outline-primary w-100" onclick="connectWallet()" id="connectWalletBtn"
-              style="display: none;">Connect Wallet</button>
+            <button class="btn btn-outline-danger w-100" onclick="disconnectWallet()" id="disconnectWalletBtn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Disconnect Wallet
+            </button>
+            <button class="btn btn-outline-primary w-100" onclick="connectWallet()" id="connectWalletBtn" style="display: none;">
+              <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
           </div>
         </div>
-        <div class="card shadow-sm align-items-center mb-3">
-          <div class="card-body text-center">
-            <h5 class="card-title mb-3">Alternative options to stake</h5>
+
+        <!-- Alternative Options Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content text-center">
+            <h2 class="card-title">Alternative Staking Options</h2>
+            <p class="text-secondary mb-3">Explore other platforms to stake your Tezos</p>
             <ul class="list-unstyled d-flex flex-column align-items-center mt-3 mb-0">
-              <li><a href="https://gov.tez.capital" target="_blank" rel="noopener noreferrer">gov.tez.capital</a></li>
-              <li><a href="https://stake.tezos.com" target="_blank" rel="noopener noreferrer">stake.tezos.com</a></li>
+              <li class="mb-2"><a href="https://gov.tez.capital" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">gov.tez.capital</a></li>
+              <li><a href="https://stake.tezos.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">stake.tezos.com</a></li>
             </ul>
           </div>
         </div>
-        <div class="card shadow-sm align-items-center mb-3">
-          <div class="card-body d-flex justify-content-between">
-            <button class="btn btn-primary btn-md w-100"
-              onclick="window.open('https://up.xtzchad.xyz', '_blank');">TezCalm</button>
-            <button class="btn btn-primary btn-md w-100 ms-2"
-              onclick="window.open('https://ai.xtzchad.xyz', '_blank');">TezMoon</button>
 
-            <a href="https://github.com/xtzchads/stake.xtzchad.xyz" target="_blank" class="icon-link ms-2">
-              <img src="icons/Tezos-social-icon-black-04.png" id="githubIcon" alt="Tezos Icon" />
-            </a>
+        <!-- XTZChad Tools Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <h2 class="card-title">XTZChad Tools</h2>
+            <p class="text-secondary mb-3">Check out our other Tezos tools</p>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-primary flex-grow-1" onclick="window.open('https://up.xtzchad.xyz', '_blank');">
+                <i class="fas fa-chart-line"></i> TezCalm
+              </button>
+              <button class="btn btn-primary flex-grow-1 ms-2" onclick="window.open('https://ai.xtzchad.xyz', '_blank');">
+                <i class="fas fa-moon"></i> TezMoon
+              </button>
+              <a href="https://github.com/xtzchads/stake.xtzchad.xyz" target="_blank" class="icon-link ms-2 d-flex align-items-center">
+                <img src="icons/Tezos-social-icon-black-04.png" id="githubIcon" alt="Tezos Icon" />
+              </a>
+            </div>
           </div>
         </div>
-        <div class="card shadow-sm align-items-center mb-3">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <span id="lightModeLabel">
-                🌞
-              </span>
-            </div>
-            <div class="form-switch d-flex" style="padding:0!important;margin:0!important">
-              <input class="form-check-input" type="checkbox" id="darkModeSwitch" style="margin:0!important">
-            </div>
-            <div>
-              <span id="lightModeLabel">
-                🌜
-              </span>
+
+        <!-- Dark Mode Toggle Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <div class="mode-toggle">
+              <span>🌞</span>
+              <div class="form-check form-switch d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+              </div>
+              <span>🌜</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </main>
-  <footer class="bg-dark text-white py-3 mt-auto">
-    <div class="container text-center">
-      <p class="mb-0">&copy; 2024 Chad Staking Assistant. All chads reserved.</p>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 ChadStake - Tezos Staking Assistant. All chads reserved.</p>
     </div>
   </footer>
+
+  <script src="js/purify.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/walletbeacon.min.js"></script>
   <script>
     const darkModeSwitch = document.getElementById('darkModeSwitch');
-    const darkModeSwitchContainer = document.getElementById('darkModeSwitchContainer');
-    const darkModeStyle = document.getElementById('dark-mode-style');
 
     function toggleDarkMode() {
       if (darkModeSwitch.checked) {
         document.body.classList.add('dark-mode');
-        darkModeStyle.href = 'css/dark-mode.css?x=4.0';
         localStorage.setItem('darkMode', 'enabled');
+        if (document.getElementById('githubIcon')) {
+          document.getElementById('githubIcon').src = "icons/Tezos-social-icon-white-04.png";
+        }
       } else {
         document.body.classList.remove('dark-mode');
-        darkModeStyle.href = '';
         localStorage.setItem('darkMode', 'disabled');
+        if (document.getElementById('githubIcon')) {
+          document.getElementById('githubIcon').src = "icons/Tezos-social-icon-black-04.png";
+        }
       }
     }
+
+    // Check for saved dark mode preference
     const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
     darkModeSwitch.checked = darkModeEnabled;
     if (darkModeEnabled) {
       toggleDarkMode();
     }
-    darkModeSwitch.addEventListener('change', toggleDarkMode);
-	
-	document.getElementById('amountInput').addEventListener('input', function() {
-            const inputField = document.getElementById('amountInput');
-            const stakeButton = document.getElementById('stake');
-	    const unstakeButton = document.getElementById('unstake');
-            const value = inputField.value;
 
-            if (value === '' || isNaN(value) || Number(value)<=0 || (value.split('.').length===2 && value.split('.')[1].length > 6)) {
-                stakeButton.disabled = true;
-		unstakeButton.disabled = true;
-            } else {
-                stake.disabled = false;
-		unstake.disabled = false;
-            }
-        });
+    darkModeSwitch.addEventListener('change', toggleDarkMode);
+    
+    // Amount input validation
+    document.getElementById('amountInput').addEventListener('input', function() {
+      const inputField = document.getElementById('amountInput');
+      const stakeButton = document.getElementById('stake');
+      const unstakeButton = document.getElementById('unstake');
+      const value = inputField.value;
+
+      if (value === '' || isNaN(value) || Number(value) <= 0 || (value.split('.').length === 2 && value.split('.')[1].length > 6)) {
+        stakeButton.disabled = true;
+        unstakeButton.disabled = true;
+      } else {
+        stakeButton.disabled = false;
+        unstakeButton.disabled = false;
+      }
+    });
   </script>
-  <script src="js/main.js?x=2.3"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
