@@ -11,7 +11,6 @@ async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
    const feeHeader = document.getElementById('feeHeader');
    const table = document.getElementById('delegateTable');
-   //table.style.display = 'none';
 
    try {
       let bakers = await fetch('https://api.tzkt.io/v1/delegates?limit=10000&active=true');
@@ -26,11 +25,9 @@ async function fetchDelegateData() {
             let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
-            // Calculate progress bar values
             let maxValue = delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 / 1000000;
             let currentValue = delegate.externalStakedBalance / 1000000;
 
-            // Determine color based on percentage
             let percentage = currentValue / maxValue * 100;
             if (maxValue==0)
                percentage=100;
@@ -43,7 +40,6 @@ async function fetchDelegateData() {
                colorClass = 'bg-danger';
             }
 
-            // DAL Rewards check - ADD THIS
             let dalRewards = '';
             if (delegate.dalAttestationRewardsCount && delegate.dalAttestationRewardsCount > 0) {
                dalRewards = '<span style="color: green; font-size: 16px;">✓</span>';
@@ -57,7 +53,7 @@ async function fetchDelegateData() {
                alias: `<a style="text-decoration:none" href="https://tzkt.io/${DOMPurify.sanitize(address)}" target="_blank" rel="noopener noreferrer"><img src="https://services.tzkt.io/v1/avatars/${DOMPurify.sanitize(address)}" style="width:32px;height:32px"/> ${DOMPurify.sanitize(alias)}</a>`,
                balance: parseInt(balance),
                edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
-               dalRewards: dalRewards, // ADD THIS LINE
+               dalRewards: dalRewards,
                progressBar: `<div class="progress">
                             <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
                          </div>`
@@ -65,7 +61,6 @@ async function fetchDelegateData() {
          }
       });
 
-      // Sort the data by balance in descending order
       allBakers.sort((a, b) => b.balance - a.balance);
       promoted.forEach(promotedAddress => {
    	 let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === promotedAddress);
@@ -138,18 +133,17 @@ function applyFilter() {
       let cell1 = row.insertCell(0);
       let cell2 = row.insertCell(1);
       let cell3 = row.insertCell(2);
-      let cell4 = row.insertCell(3); // DAL Rewards column - ADD THIS LINE
-      let cell5 = row.insertCell(4); // Select button column - CHANGE INDEX FROM 3 TO 4
+      let cell4 = row.insertCell(3);
+      let cell5 = row.insertCell(4); 
 
       cell1.innerHTML = delegate.alias;
       cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
       cell3.textContent = delegate.edgeOfBakingOverStaking;
-      cell4.innerHTML = delegate.dalRewards; // ADD THIS LINE
+      cell4.innerHTML = delegate.dalRewards;
       cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>"; // CHANGE FROM cell4 TO cell5
    });
 }
 
-// Sort table by column index
 function sortTable(columnIndex, isNumeric) {
    const table = document.getElementById('delegateTable');
    const tbody = table.querySelector('tbody');
