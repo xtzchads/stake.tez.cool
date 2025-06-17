@@ -21,8 +21,8 @@ async function fetchDelegateData() {
          if (delegate.limitOfStakingOverBaking && delegate.limitOfStakingOverBaking > 0) {
             let address = delegate.address;
             let alias = delegate.alias || delegate.address;
-			if (delegate.limitOfStakingOverBaking>9000000)
-				delegate.limitOfStakingOverBaking=9000000;
+            if (delegate.limitOfStakingOverBaking>9000000)
+               delegate.limitOfStakingOverBaking=9000000;
             let balance = ((delegate.stakedBalance * delegate.limitOfStakingOverBaking / 1000000 - delegate.externalStakedBalance) / 1000000).toFixed(6);
             let edgeOfBakingOverStaking = (delegate.edgeOfBakingOverStaking / 10000000).toFixed(2);
 
@@ -33,7 +33,7 @@ async function fetchDelegateData() {
             // Determine color based on percentage
             let percentage = currentValue / maxValue * 100;
             if (maxValue==0)
-				   percentage=100;
+               percentage=100;
             let colorClass = '';
             if (percentage <= 50) {
                colorClass = 'bg-success';
@@ -43,12 +43,21 @@ async function fetchDelegateData() {
                colorClass = 'bg-danger';
             }
 
+            // DAL Rewards check - ADD THIS
+            let dalRewards = '';
+            if (delegate.dalAttestationRewardsCount && delegate.dalAttestationRewardsCount > 0) {
+               dalRewards = '<span style="color: green; font-size: 16px;">✓</span>';
+            } else {
+               dalRewards = '<span style="color: red; font-size: 16px;">✗</span>';
+            }
+
             allBakers.push({
                address: address,
                name: alias,
                alias: `<a style="text-decoration:none" href="https://tzkt.io/${DOMPurify.sanitize(address)}" target="_blank" rel="noopener noreferrer"><img src="https://services.tzkt.io/v1/avatars/${DOMPurify.sanitize(address)}" style="width:32px;height:32px"/> ${DOMPurify.sanitize(alias)}</a>`,
                balance: parseInt(balance),
                edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
+               dalRewards: dalRewards, // ADD THIS LINE
                progressBar: `<div class="progress">
                             <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
                          </div>`
@@ -129,12 +138,14 @@ function applyFilter() {
       let cell1 = row.insertCell(0);
       let cell2 = row.insertCell(1);
       let cell3 = row.insertCell(2);
-      let cell4 = row.insertCell(3);
+      let cell4 = row.insertCell(3); // DAL Rewards column - ADD THIS LINE
+      let cell5 = row.insertCell(4); // Select button column - CHANGE INDEX FROM 3 TO 4
 
       cell1.innerHTML = delegate.alias;
       cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
       cell3.textContent = delegate.edgeOfBakingOverStaking;
-      cell4.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>";
+      cell4.innerHTML = delegate.dalRewards; // ADD THIS LINE
+      cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>"; // CHANGE FROM cell4 TO cell5
    });
 }
 
