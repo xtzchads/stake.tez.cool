@@ -11,52 +11,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <style>
+    /* CSS Variables */
     :root {
-      --primary-color: #5D5FEF;
-      --primary-dark: #4446BD;
-      --accent-color: #FF6B6B;
-      --dark-color: #151531;
-      --light-color: #F8F9FF;
-      --card-bg: #FFFFFF;
-      --text-primary: #1F1F3D;
-      --text-secondary: #6E6E8F;
-      --gradient-bg: linear-gradient(135deg, #5D5FEF 0%, #8082FF 100%);
-      --card-shadow: 0 10px 30px rgba(93, 95, 239, 0.08);
-      --hover-shadow: 0 15px 35px rgba(93, 95, 239, 0.15);
-      --border-radius: 16px;
+      --colorful: rgba(239, 123, 227, 1);
+      --primary-gradient: linear-gradient(180deg, rgba(162, 124, 238, 1) 0%, rgba(127, 75, 231, 1) 100%);
+      --glass-bg: rgba(255, 255, 255, 0.01);
+      --glass-border: rgba(255, 255, 255, 0.26);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --shadow-glass: 11px 14px 39px rgba(5, 2, 13, 0.1), 45px 54px 70px rgba(5, 2, 13, 0.09), 100px 122px 95px rgba(5, 2, 13, 0.05);
+      --border-radius-sm: 16px;
+      --border-radius-md: 30px;
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 32px;
+      --spacing-xl: 48px;
     }
 
+    /* Base Styles */
     * {
-      margin: 0;
-      padding: 0;
+      -webkit-font-smoothing: antialiased;
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--light-color);
-      color: var(--text-primary);
-      line-height: 1.6;
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      font-family: "Monda", Helvetica;
+      background: radial-gradient(50% 50% at 65% 50%, rgba(36, 26, 76, 1) 0%, rgba(9, 3, 28, 1) 100%);
       overflow-x: hidden;
+      color: var(--text-primary);
     }
 
-    main {
-      flex-grow: 1;
-    }
 
-    .container {
-      padding: 0 20px;
-      margin: 0 auto;
-    }
-
-    /* Header styles */
+    /* Header */
     header {
       position: relative;
-      padding: 80px 0 120px;
-      background: var(--gradient-bg);
+      padding: 80px 0 80px;
       overflow: hidden;
     }
 
@@ -82,17 +77,26 @@
       left: 0;
       width: 100%;
       height: 60px;
-      background-color: var(--light-color);
+      background: radial-gradient(50% 50% at 65% 50%, rgba(36, 26, 76, 1) 0%, rgba(9, 3, 28, 1) 100%);
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     }
 
     header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: white;
+      font-family: 'Comic Sans MS', 'Kalam', 'Marker Felt', 'Trebuchet MS', cursive;
+      font-weight: bold;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0ff 50%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 20px;
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
+      to { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)); }
     }
 
     header p {
@@ -103,35 +107,51 @@
       margin: 0 auto;
     }
 
-    /* Card styles */
+    /* Main Content */
+    main {
+      flex-grow: 1;
+      position: relative;
+      z-index: 10;
+      padding: var(--spacing-lg) 0;
+    }
+
+    .container {
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+
+    /* Glass Cards */
     .app-card {
-      background: var(--card-bg);
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
       overflow: hidden;
       transition: all 0.3s ease;
-      margin-bottom: 24px;
-      border: none;
+      margin-bottom: var(--spacing-md);
     }
 
     .app-card:hover {
-      box-shadow: var(--hover-shadow);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(93, 95, 239, 0.15);
     }
 
     .card-top {
       height: 6px;
-      background: var(--gradient-bg);
+      background: var(--primary-gradient);
     }
 
     .card-content {
-      padding: 24px;
+      padding: var(--spacing-md);
     }
 
     .card-title {
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 16px;
+      margin-bottom: var(--spacing-sm);
       position: relative;
       display: inline-block;
     }
@@ -143,162 +163,182 @@
       left: 0;
       width: 40px;
       height: 3px;
-      background: var(--accent-color);
+      background: var(--colorful);
       border-radius: 3px;
     }
 
-    /* Button styles */
+    /* Button Styles */
     .btn-primary {
-      background: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white;
+      background: var(--primary-gradient);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Monda", Helvetica;
       font-weight: 500;
       padding: 10px 24px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
       box-shadow: 0 4px 12px rgba(93, 95, 239, 0.2);
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
-      border-color: var(--primary-dark);
-      box-shadow: 0 8px 16px rgba(93, 95, 239, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(127, 75, 231, 0.3);
+      color: var(--text-primary);
+      border-color: var(--glass-border);
     }
 
     .btn-secondary {
-      background: var(--text-secondary);
-      border-color: var(--text-secondary);
-      color: white;
+      background: linear-gradient(0deg, rgba(24, 17, 44, 0.64) 0%, rgba(24, 17, 44, 0.64) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
+      color: #a27cee;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Monda", Helvetica;
       font-weight: 500;
       padding: 10px 24px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
     }
 
     .btn-secondary:hover {
-      filter: brightness(0.9);
+      background: rgba(24, 17, 44, 0.8);
+      color: #a27cee;
+      border-color: var(--glass-border);
     }
 
     .btn-outline-primary {
-      border-color: var(--primary-color);
-      color: var(--primary-color);
+      border: 2px solid var(--primary-gradient);
+      color: #a27cee;
+      background: transparent;
       font-weight: 500;
       padding: 10px 24px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+      border-radius: var(--border-radius-sm);
+      transition: all 0.3s ease;
     }
 
     .btn-outline-primary:hover {
-      background: var(--primary-color);
-      color: white;
+      background: var(--primary-gradient);
+      color: var(--text-primary);
     }
 
     .btn-outline-danger {
-      border-color: var(--accent-color);
-      color: var(--accent-color);
+      border: 2px solid var(--colorful);
+      color: var(--colorful);
+      background: transparent;
       font-weight: 500;
       padding: 10px 24px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+      border-radius: var(--border-radius-sm);
+      transition: all 0.3s ease;
     }
 
     .btn-outline-danger:hover {
-      background: var(--accent-color);
-      color: white;
+      background: var(--colorful);
+      color: var(--text-primary);
     }
 
-    /* Table styles */
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Table Styles */
     .table {
       margin: 0;
       border-collapse: separate;
       border-spacing: 0;
       width: 100%;
-    }
-
-    .table th {
-      font-weight: 600;
       color: var(--text-primary);
-      background-color: rgba(93, 95, 239, 0.05);
-      border: none;
-      padding: 12px 16px;
     }
 
-    .table td {
-      padding: 12px 16px;
-      border-top: 1px solid rgba(93, 95, 239, 0.08);
-      vertical-align: middle;
-    }
 
-    .table tbody tr {
-      transition: all 0.2s ease;
-    }
+.table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--glass-border);
+  vertical-align: middle;
+  color: var(--text-secondary);
+  background: transparent;
+}
 
-    .table tbody tr:hover {
-      background-color: rgba(93, 95, 239, 0.03);
-    }
+.table tbody tr {
+  transition: all 0.2s ease;
+  background: transparent;
+}
 
-    /* Form styles */
+.table-responsive {
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+}
+
+.table tbody tr:hover {
+  background: rgba(162, 124, 238, 0.08);
+}
+
+    /* Form Styles */
     .form-control {
-      border: 1px solid rgba(93, 95, 239, 0.2);
-      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
       padding: 10px 16px;
       transition: all 0.2s ease;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--text-primary);
     }
 
     .form-control:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 0.25rem rgba(93, 95, 239, 0.25);
+      border-color: #a27cee;
+      box-shadow: 0 0 0 0.25rem rgba(162, 124, 238, 0.25);
+      background: var(--glass-bg);
+      color: var(--text-primary);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-muted);
     }
 
     .form-check-input {
-      border: 1px solid rgba(93, 95, 239, 0.3);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
     }
 
     .form-check-input:checked {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
+      background-color: #a27cee;
+      border-color: #a27cee;
     }
 
-    .form-switch .form-check-input {
-      height: 1.25rem;
+    .form-check-label {
+      color: var(--text-secondary);
+      cursor: pointer;
     }
 
-    /* Footer styles */
-    footer {
-      background-color: var(--dark-color);
-      color: white;
-      text-align: center;
-      padding: 30px 0;
-      margin-top: 50px;
-    }
+.form-switch .form-check-input {
+  height: 1.25rem;
+  margin-right:5px;
+  width: 2.5rem;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255,255,255,1%29'/></svg>");
+  background-position: left center;
+  background-repeat: no-repeat;
+  transition: background-position 0.15s ease-in-out;
+}
 
-    footer p {
-      font-size: 0.9rem;
-      opacity: 0.7;
-      margin: 0;
-    }
+.form-switch .form-check-input:checked {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255,255,255,1%29'/></svg>");
+  background-position: right center;
+  background-repeat: no-repeat;
+}
 
-    /* Notification */
-    .notification {
-      text-align: center;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: #fff;
-      border-radius: 8px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      margin-bottom: 16px;
-    }
-
-    .notification.error {
-      background-color: var(--accent-color);
-    }
-
-    .notification.show {
-      opacity: 1;
-    }
-
-    /* Status badge */
+    /* Status Badges */
     .status-badge {
       padding: 4px 10px;
       border-radius: 30px;
@@ -308,47 +348,73 @@
     }
 
     .status-active {
-      background-color: rgba(46, 213, 115, 0.1);
+      background-color: rgba(46, 213, 115, 0.2);
       color: #2ED573;
+      border: 1px solid rgba(46, 213, 115, 0.3);
     }
 
     .status-inactive {
-      background-color: rgba(255, 107, 107, 0.1);
+      background-color: rgba(255, 107, 107, 0.2);
       color: #FF6B6B;
+      border: 1px solid rgba(255, 107, 107, 0.3);
     }
 
-    /* Icon links */
-    .icon-link img {
-      width: 30px;
-      height: 30px;
-      transition: all 0.2s ease;
+    /* Notification */
+    .notification {
+      text-align: center;
+      padding: 10px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      color: var(--text-primary);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(46, 213, 115, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-bottom: 16px;
     }
 
-    .icon-link:hover img {
-      transform: scale(1.15);
+    .notification.error {
+      border-color: rgba(255, 107, 107, 0.5);
     }
 
-    /* Tools section */
-    .tools-links {
-      display: flex;
-      gap: 12px;
+    .notification.show {
+      opacity: 1;
     }
 
-    /* Dark mode transition */
-    body, .app-card, .form-control, .btn, .table th, .table td {
-      transition: all 0.3s ease;
+    /* Footer */
+    footer {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
     }
 
-    /* Mode toggle */
-    .mode-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
+    footer p {
+      font-size: 0.9rem;
+      margin: 0;
     }
 
-    .mode-toggle span {
-      font-size: 1.2rem;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(162, 124, 238, 0.8);
     }
 
     /* Responsive */
@@ -374,55 +440,6 @@
       .card-content {
         padding: 16px;
       }
-    }
-
-    /* Dark mode styles */
-    body.dark-mode {
-      background-color: var(--dark-color);
-      color: white;
-    }
-
-    body.dark-mode .app-card {
-      background-color: #1E1E42;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    body.dark-mode .card-title,
-    body.dark-mode .form-check-label {
-      color: white;
-    }
-
-    body.dark-mode .table th {
-      background-color: rgba(93, 95, 239, 0.15);
-      color: white;
-    }
-	
-	body.dark-mode .table td a {
-      color: white;
-    }
-
-    body.dark-mode .table td {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.9);
-	  background-color: rgba(93, 95, 239, 0.15);
-    }
-	
-	body.dark-mode .header-blob {
-      background-color: var(--dark-color);
-    }
-
-    body.dark-mode .table tbody tr:hover {
-      background-color: rgba(93, 95, 239, 0.08);
-    }
-
-    body.dark-mode .form-control {
-      background-color: #2A2A54;
-      border-color: #3A3A6E;
-      color: white;
-    }
-
-    body.dark-mode .text-secondary {
-      color: rgba(255, 255, 255, 0.7) !important;
     }
 
     /* Animation */
@@ -459,23 +476,104 @@
 
     .app-card {
       animation: popUp 0.5s ease forwards;
+      opacity: 0;
     }
 
     .app-card:nth-child(1) { animation-delay: 0.1s; }
     .app-card:nth-child(2) { animation-delay: 0.2s; }
     .app-card:nth-child(3) { animation-delay: 0.3s; }
     .app-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Text color overrides */
+    .text-secondary {
+      color: var(--text-secondary) !important;
+    }
+
+    /* Link styles */
+    a {
+      color: #a27cee;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--colorful);
+    }
+	
+	.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.pagination {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.page-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.page-btn:hover {
+  background: rgba(162, 124, 238, 0.1);
+  color: var(--text-primary);
+}
+
+.page-btn.active {
+  background: var(--primary-gradient);
+  color: var(--text-primary);
+  border-color: #a27cee;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.entries-per-page {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.entries-per-page select {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: 4px 8px;
+}
   </style>
 </head>
 
 <body>
+
   <header>
-    <div class="header-bg"></div>
     <div class="container header-content">
-      <h1>TezStake</h1>
-      <p>Optimize your Tezos staking strategy</p>
+      <h1>ChadStake</h1>
+      <p>Optimize your Tezos staking strategy with style</p>
     </div>
-    <div class="header-blob"></div>
   </header>
 
   <main class="container" style="position: relative; z-index: 1;">
@@ -533,22 +631,44 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive rounded">
-              <table class="table" id="delegateTable">
-                <thead>
-                  <tr>
-                    <th scope="col">Alias</th>
-                    <th id="freeSpaceHeader" scope="col" style="cursor: pointer;">Free Space</th>
-                    <th id="feeHeader" scope="col" style="cursor: pointer;">Fee (%)</th>
-					<th scope="col" style="cursor: pointer;">DAL Rewards</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Table content will be dynamically populated -->
-                </tbody>
-              </table>
-            </div>
+<div class="table-responsive rounded">
+  <table class="table" id="delegateTable">
+    <thead>
+      <tr>
+        <th scope="col">Alias</th>
+        <th id="freeSpaceHeader" scope="col" style="cursor: pointer;">Free Space</th>
+        <th id="feeHeader" scope="col" style="cursor: pointer;">Fee (%)</th>
+        <th scope="col" style="cursor: pointer;">DAL Rewards</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Table content will be dynamically populated -->
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <div class="entries-per-page">
+      <span>Show</span>
+      <select id="entriesPerPage" onchange="changeEntriesPerPage()">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+      <span>entries</span>
+    </div>
+    <div class="pagination-info" id="paginationInfo">
+      Showing 1 to 10 of 50 entries
+    </div>
+    <div class="pagination" id="pagination">
+      <button class="page-btn" id="prevBtn" onclick="previousPage()" disabled>‹</button>
+      <button class="page-btn active" onclick="goToPage(1)">1</button>
+      <button class="page-btn" onclick="goToPage(2)">2</button>
+      <button class="page-btn" onclick="goToPage(3)">3</button>
+      <button class="page-btn" id="nextBtn" onclick="nextPage()">›</button>
+    </div>
+  </div>
+</div>
           </div>
         </div>
       </div>
@@ -585,17 +705,17 @@
           </div>
         </div>
 
-        <!-- Dark Mode Toggle Card -->
+        <!-- Tools Card -->
         <div class="app-card">
           <div class="card-top"></div>
-          <div class="card-content">
-            <div class="mode-toggle">
-              <span>🌞</span>
-              <div class="form-check form-switch d-flex justify-content-center">
-                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
-              </div>
-              <span>🌜</span>
-            </div>
+          <div class="card-content text-center">
+            <h2 class="card-title">Chad Tools</h2>
+            <p class="text-secondary mb-3">Explore the TezosX ecosystem</p>
+            <ul class="list-unstyled d-flex flex-column align-items-center mt-3 mb-0">
+              <li class="mb-2"><a href="https://up.tez.cool" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">TezCalm</a></li>
+              <li class="mb-2"><a href="https://tez.cool/map" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">ChadMap</a></li>
+              <li><a href="https://trollbox.tez.cool" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">TezTrollbox</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -607,54 +727,9 @@
       <p>&copy; 2025 ChadStake - Tezos Staking Assistant. All chads reserved.</p>
     </div>
   </footer>
-
   <script src="js/purify.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/walletbeacon.min.js"></script>
-  <script>
-    const darkModeSwitch = document.getElementById('darkModeSwitch');
-
-    function toggleDarkMode() {
-      if (darkModeSwitch.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');
-        if (document.getElementById('githubIcon')) {
-          document.getElementById('githubIcon').src = "icons/Tezos-social-icon-white-04.png";
-        }
-      } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-        if (document.getElementById('githubIcon')) {
-          document.getElementById('githubIcon').src = "icons/Tezos-social-icon-black-04.png";
-        }
-      }
-    }
-
-    // Check for saved dark mode preference
-    const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
-    darkModeSwitch.checked = darkModeEnabled;
-    if (darkModeEnabled) {
-      toggleDarkMode();
-    }
-
-    darkModeSwitch.addEventListener('change', toggleDarkMode);
-    
-    // Amount input validation
-    document.getElementById('amountInput').addEventListener('input', function() {
-      const inputField = document.getElementById('amountInput');
-      const stakeButton = document.getElementById('stake');
-      const unstakeButton = document.getElementById('unstake');
-      const value = inputField.value;
-
-      if (value === '' || isNaN(value) || Number(value) <= 0 || (value.split('.').length === 2 && value.split('.')[1].length > 6)) {
-        stakeButton.disabled = true;
-        unstakeButton.disabled = true;
-      } else {
-        stakeButton.disabled = false;
-        unstakeButton.disabled = false;
-      }
-    });
-  </script>
   <script src="js/main.js?v=2.0"></script>
 </body>
 </html>
