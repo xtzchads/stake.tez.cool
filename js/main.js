@@ -6,6 +6,93 @@ let client = new beacon.DAppClient({
 let flag = false;
 let permissions;
 let promoted = ["tz1Yjryh3tpFHQG73dofJNatR21KUdRDu7mH","tz1brWSr91ZygR4gi5o19yo8QMff926y2B5e","tz1bdTgmF8pzBH9chtJptsjjrh5UfSXp1SQ4","tz1cXUERthGxHcDVAdKsFiFa4sSWbuGorghY","tz1exWwgsENRgBQKrjvo4xdhG18mRov1kjJa","tz1i36vhJwdv75p4zfRu3TPyqhaXyxDWGoz9"];
+let currentPage = 1;
+let entriesPerPage = 25;
+let totalBakers = 0;
+
+function changeEntriesPerPage() {
+  entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+  currentPage = 1;
+  renderBakerTable();
+  updatePagination();
+}
+
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderBakerTable();
+    updatePagination();
+  }
+}
+
+function nextPage() {
+  const totalPages = Math.ceil(totalBakers / entriesPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderBakerTable();
+    updatePagination();
+  }
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderBakerTable();
+  updatePagination();
+}
+
+function renderBakerTable() {
+  const table = document.getElementById('delegateTable');
+  const tableBody = table.querySelector('tbody');
+  const startIndex = (currentPage - 1) * entriesPerPage;
+  const endIndex = startIndex + entriesPerPage;
+  const pageData = filteredBakers.slice(startIndex, endIndex);
+  
+  tableBody.innerHTML = '';
+  
+  pageData.forEach(delegate => {
+    let row = tableBody.insertRow();
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let cell5 = row.insertCell(4);
+
+    cell1.innerHTML = delegate.alias;
+    cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
+    cell3.textContent = delegate.edgeOfBakingOverStaking;
+    cell4.innerHTML = delegate.dalRewards;
+    cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>";
+  });
+}
+
+function updatePagination() {
+  const totalPages = Math.ceil(totalBakers / entriesPerPage);
+  const startEntry = totalBakers > 0 ? (currentPage - 1) * entriesPerPage + 1 : 0;
+  const endEntry = Math.min(currentPage * entriesPerPage, totalBakers);
+  
+  // Update info
+  document.getElementById('paginationInfo').textContent = 
+    `${startEntry} to ${endEntry} of ${totalBakers}`;
+  
+  // Update buttons
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+  
+  // Update pagination buttons
+  const pagination = document.getElementById('pagination');
+  const buttons = pagination.querySelectorAll('.page-btn:not(#prevBtn):not(#nextBtn)');
+  buttons.forEach(btn => btn.remove());
+  
+  // Add page buttons
+  const nextBtn = document.getElementById('nextBtn');
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+    btn.textContent = i;
+    btn.onclick = () => goToPage(i);
+    pagination.insertBefore(btn, nextBtn);
+  }
+}
 
 async function fetchDelegateData() {
    const freeSpaceHeader = document.getElementById('freeSpaceHeader');
@@ -81,33 +168,34 @@ async function fetchDelegateData() {
       freeSpace: 'desc',
       fee: 'desc'
    };
-   freeSpaceHeader.addEventListener('click', () => {
-      if (sortDirection.freeSpace === 'desc') {
-         allBakers.sort((a, b) => a.balance - b.balance);
-         sortDirection.freeSpace = 'asc';
-      } else {
-         allBakers.sort((a, b) => b.balance - a.balance);
-         sortDirection.freeSpace = 'desc';
-      }
-      applyFilter();
-   });
+freeSpaceHeader.addEventListener('click', () => {
+   if (sortDirection.freeSpace === 'desc') {
+      allBakers.sort((a, b) => a.balance - b.balance);
+      sortDirection.freeSpace = 'asc';
+   } else {
+      allBakers.sort((a, b) => b.balance - a.balance);
+      sortDirection.freeSpace = 'desc';
+   }
+   currentPage = 1;
+   applyFilter();
+});
 
-   feeHeader.addEventListener('click', () => {
-      if (sortDirection.fee === 'desc') {
-         allBakers.sort((a, b) => a.edgeOfBakingOverStaking.slice(0, -1) - b.edgeOfBakingOverStaking.slice(0, -1));
-         sortDirection.fee = 'asc';
-      } else {
-         allBakers.sort((a, b) => b.edgeOfBakingOverStaking.slice(0, -1) - a.edgeOfBakingOverStaking.slice(0, -1));
-         sortDirection.fee = 'desc';
-      }
-      applyFilter();
-   });
+feeHeader.addEventListener('click', () => {
+   if (sortDirection.fee === 'desc') {
+      allBakers.sort((a, b) => a.edgeOfBakingOverStaking.slice(0, -1) - b.edgeOfBakingOverStaking.slice(0, -1));
+      sortDirection.fee = 'asc';
+   } else {
+      allBakers.sort((a, b) => b.edgeOfBakingOverStaking.slice(0, -1) - a.edgeOfBakingOverStaking.slice(0, -1));
+      sortDirection.fee = 'desc';
+   }
+   currentPage = 1;
+   applyFilter();
+});
       flag = true;
       checkActiveSession();
 }
 
 function applyFilter() {
-   const table = document.getElementById('delegateTable');
    const showAllBakers = document.getElementById('toggleAllBakers').checked;
    const showAliasBakers = document.getElementById('toggleAliasBakers').checked;
 
@@ -125,23 +213,10 @@ function applyFilter() {
       filteredBakers = filteredBakers.filter(delegate => delegate.name === delegate.address);
    }
 
-   const tableBody = table.querySelector('tbody');
-   tableBody.innerHTML = '';
-
-   filteredBakers.forEach(delegate => {
-      let row = tableBody.insertRow();
-      let cell1 = row.insertCell(0);
-      let cell2 = row.insertCell(1);
-      let cell3 = row.insertCell(2);
-      let cell4 = row.insertCell(3);
-      let cell5 = row.insertCell(4); 
-
-      cell1.innerHTML = delegate.alias;
-      cell2.innerHTML = delegate.balance.toLocaleString() + "<br>" + delegate.progressBar;
-      cell3.textContent = delegate.edgeOfBakingOverStaking;
-      cell4.innerHTML = delegate.dalRewards;
-      cell5.innerHTML = "<button class=\"btn btn-primary btn-sm w-100\" onclick=\"delegateTez('" + DOMPurify.sanitize(delegate.address) + "', this)\">Select</button>"; // CHANGE FROM cell4 TO cell5
-   });
+   totalBakers = filteredBakers.length;
+   currentPage = 1;
+   renderBakerTable();
+   updatePagination();
 }
 
 function sortTable(columnIndex, isNumeric) {
