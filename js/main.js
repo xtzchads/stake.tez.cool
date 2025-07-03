@@ -141,7 +141,7 @@ async function fetchDelegateData() {
                balance: parseInt(balance),
                edgeOfBakingOverStaking: edgeOfBakingOverStaking + "%",
                dalRewards: dalRewards,
-               progressBar: `<div class="progress">
+               progressBar: `<div class="progress" style="background-color: #1b172d;background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.02) 100%);">
                             <div class="progress-bar ${colorClass}" role="progressbar" style="width: ${percentage}%" aria-valuenow="${currentValue}" aria-valuemin="0" aria-valuemax="${maxValue}"></div>
                          </div>`
             });
