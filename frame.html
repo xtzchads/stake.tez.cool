@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Stake Tezos with ease using our Staking Assistant. Connect your wallet, choose from available bakers, and manage your staking options efficiently.">
+  <title>ChadStake | Tezos Staking Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <style>
+	  @import url("https://fonts.googleapis.com/css?family=Monda:400,500,600");
+    /* CSS Variables */
+    :root {
+      --colorful: rgba(239, 123, 227, 1);
+      --primary-gradient: linear-gradient(180deg, rgba(162, 124, 238, 1) 0%, rgba(127, 75, 231, 1) 100%);
+      --glass-bg: rgba(255, 255, 255, 0.01);
+      --glass-border: rgba(255, 255, 255, 0.26);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --shadow-glass: 11px 14px 39px rgba(5, 2, 13, 0.1), 45px 54px 70px rgba(5, 2, 13, 0.09), 100px 122px 95px rgba(5, 2, 13, 0.05);
+      --border-radius-sm: 16px;
+      --border-radius-md: 30px;
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 32px;
+      --spacing-xl: 48px;
+    }
+
+    /* Base Styles */
+    * {
+      -webkit-font-smoothing: antialiased;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      font-family: "Monda", Helvetica;
+      background: transparent;
+      overflow-x: hidden;
+      color: var(--text-primary);
+    }
+
+
+    /* Header */
+    header {
+      position: relative;
+      padding: 80px 0 80px;
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+
+    .header-blob {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: radial-gradient(50% 50% at 65% 50%, rgba(36, 26, 76, 1) 0%, rgba(9, 3, 28, 1) 100%);
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    header h1 {
+      font-family: 'Comic Sans MS', 'Kalam', 'Marker Felt', 'Trebuchet MS', cursive;
+      font-weight: bold;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0ff 50%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
+      to { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)); }
+    }
+
+    header p {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Main Content */
+    main {
+      flex-grow: 1;
+      position: relative;
+      z-index: 10;
+      padding: var(--spacing-lg) 0;
+    }
+
+    .container {
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+
+    /* Glass Cards */
+    .app-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(93, 95, 239, 0.15);
+    }
+
+    .card-top {
+      height: 6px;
+      background: var(--primary-gradient);
+    }
+
+    .card-content {
+      padding: var(--spacing-md);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-sm);
+      position: relative;
+      display: inline-block;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--colorful);
+      border-radius: 3px;
+    }
+
+    /* Button Styles */
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Monda", Helvetica;
+      font-weight: 500;
+      padding: 10px 24px;
+      box-shadow: 0 4px 12px rgba(93, 95, 239, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(127, 75, 231, 0.3);
+      color: var(--text-primary);
+      border-color: var(--glass-border);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(0deg, rgba(24, 17, 44, 0.64) 0%, rgba(24, 17, 44, 0.64) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
+      color: #a27cee;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: "Monda", Helvetica;
+      font-weight: 500;
+      padding: 10px 24px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(24, 17, 44, 0.8);
+      color: #a27cee;
+      border-color: var(--glass-border);
+    }
+
+    .btn-outline-primary {
+      border: 2px solid var(--primary-gradient);
+      color: #a27cee;
+      background: transparent;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: var(--border-radius-sm);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background: var(--primary-gradient);
+      color: var(--text-primary);
+    }
+
+    .btn-outline-danger {
+      border: 2px solid var(--colorful);
+      color: var(--colorful);
+      background: transparent;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: var(--border-radius-sm);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-danger:hover {
+      background: var(--colorful);
+      color: var(--text-primary);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Table Styles */
+    .table {
+      margin: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      color: var(--text-primary);
+    }
+
+
+.table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--glass-border);
+  vertical-align: middle;
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.table-responsive {
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+}
+
+.table tbody tr:hover {
+  background: rgba(162, 124, 238, 0.08);
+}
+
+    /* Form Styles */
+    .form-control {
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-sm);
+      padding: 10px 16px;
+      transition: all 0.2s ease;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--text-primary);
+    }
+
+    .form-control:focus {
+      border-color: #a27cee;
+      box-shadow: 0 0 0 0.25rem rgba(162, 124, 238, 0.25);
+      background: var(--glass-bg);
+      color: var(--text-primary);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-check-input {
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+    }
+
+    .form-check-input:checked {
+      background-color: #a27cee;
+      border-color: #a27cee;
+    }
+
+    .form-check-label {
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+.form-switch .form-check-input {
+  height: 1.25rem;
+  margin-right:5px;
+  width: 2.5rem;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255,255,255,1%29'/></svg>");
+  background-position: left center;
+  background-repeat: no-repeat;
+  transition: background-position 0.15s ease-in-out;
+}
+
+.form-switch .form-check-input:checked {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255,255,255,1%29'/></svg>");
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+    /* Status Badges */
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background-color: rgba(46, 213, 115, 0.2);
+      color: #2ED573;
+      border: 1px solid rgba(46, 213, 115, 0.3);
+    }
+
+    .status-inactive {
+      background-color: rgba(255, 107, 107, 0.2);
+      color: #FF6B6B;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    /* Notification */
+    .notification {
+      text-align: center;
+      padding: 10px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      color: var(--text-primary);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(46, 213, 115, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-bottom: 16px;
+    }
+
+    .notification.error {
+      border-color: rgba(255, 107, 107, 0.5);
+    }
+
+    .notification.show {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(162, 124, 238, 0.8);
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      header {
+        padding: 60px 0 100px;
+      }
+      
+      header h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 767px) {
+      header {
+        padding: 50px 0 80px;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .card-content {
+        padding: 16px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header h1 {
+      animation: fadeInDown 0.8s ease forwards;
+    }
+
+    header p {
+      animation: fadeInDown 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    @keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .app-card {
+      animation: popUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .app-card:nth-child(1) { animation-delay: 0.1s; }
+    .app-card:nth-child(2) { animation-delay: 0.2s; }
+    .app-card:nth-child(3) { animation-delay: 0.3s; }
+    .app-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Text color overrides */
+    .text-secondary {
+      color: var(--text-secondary) !important;
+    }
+
+    /* Link styles */
+    a {
+      color: #a27cee;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--colorful);
+    }
+	
+	.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.pagination {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.page-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.page-btn:hover {
+  background: rgba(162, 124, 238, 0.1);
+  color: var(--text-primary);
+}
+
+.page-btn.active {
+  background: var(--primary-gradient);
+  color: var(--text-primary);
+  border-color: #a27cee;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.entries-per-page {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.entries-per-page select {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: 4px 8px;
+}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container header-content">
+      <h1>ChadStake</h1>
+      <p>Optimize your Tezos staking strategy with style</p>
+    </div>
+  </header>
+
+  <main class="container" style="position: relative; z-index: 1;">
+    <div class="row">
+      <!-- Main column - Staking and Baker List -->
+      <div class="col-lg-8">
+        <!-- Staking Card -->
+        <div class="app-card" id="staking" style="display:none">
+          <div class="card-top"></div>
+          <div class="card-content" id="staking-body">
+            <h2 class="card-title">Stake or Unstake</h2>
+            <p class="mb-4 text-secondary">Manage your tez with your current baker</p>
+            
+            <div class="row align-items-center mt-4">
+              <div class="col-md-1"></div>
+              <div class="col-md-4 mb-3">
+                <input type="number" class="form-control" id="amountInput" placeholder="Amount" onkeydown="return event.keyCode !== 69">
+              </div>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-primary w-100" id="stake" onclick="stakeTez()" disabled>
+                  <i class="fas fa-arrow-right"></i> Stake
+                </button>
+              </div>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-secondary w-100" id="unstake" onclick="unstakeTez()" disabled>
+                  <i class="fas fa-arrow-left"></i> Unstake
+                </button>
+              </div>
+              <div class="col-md-2 mb-3">
+                <button class="btn btn-secondary w-100" onclick="finalunstakeTez()" id="finalize" disabled>
+                  <i class="fas fa-check"></i> Finalize
+                </button>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Available Bakers Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <div class="row mb-3">
+              <div class="col">
+                <h2 class="card-title">Available Bakers</h2>
+              </div>
+              <div class="col-auto">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAllBakers" onchange="applyFilter()">
+                  <label class="form-check-label" for="toggleAllBakers">Low fees</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" checked="checked" id="toggleAliasBakers" onchange="applyFilter()">
+                  <label class="form-check-label" for="toggleAliasBakers">Public bakers</label>
+                </div>
+              </div>
+            </div>
+<div class="table-responsive rounded">
+  <table class="table" id="delegateTable">
+    <thead>
+      <tr>
+        <th scope="col">Alias</th>
+        <th id="freeSpaceHeader" scope="col" style="cursor: pointer;">Free Space</th>
+        <th id="feeHeader" scope="col" style="cursor: pointer;">Fee (%)</th>
+        <th scope="col" style="cursor: pointer;">DAL Rewards</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Table content will be dynamically populated -->
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <div class="entries-per-page">
+      <span>Show</span>
+      <select id="entriesPerPage" onchange="changeEntriesPerPage()">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+      <span>entries</span>
+    </div>
+    <div class="pagination-info" id="paginationInfo">
+      Showing 1 to 10 of 50 entries
+    </div>
+    <div class="pagination" id="pagination">
+      <button class="page-btn" id="prevBtn" onclick="previousPage()" disabled>‹</button>
+      <button class="page-btn active" onclick="goToPage(1)">1</button>
+      <button class="page-btn" onclick="goToPage(2)">2</button>
+      <button class="page-btn" onclick="goToPage(3)">3</button>
+      <button class="page-btn" id="nextBtn" onclick="nextPage()">›</button>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar column -->
+      <div class="col-lg-4">
+        <!-- Wallet Card -->
+        <div class="app-card" id="wallet">
+          <div class="card-top"></div>
+          <div class="card-content">
+            <h2 class="card-title">Your Wallet</h2>
+            <div class="text-center mb-3" id="walletInfo" style="display:none">
+              <!-- Wallet info will be inserted here -->
+            </div>
+            <button class="btn btn-outline-danger w-100" onclick="disconnectWallet()" id="disconnectWalletBtn" style="display: none;">
+              <i class="fas fa-sign-out-alt"></i> Disconnect Wallet
+            </button>
+            <button class="btn btn-outline-primary w-100" onclick="connectWallet()" id="connectWalletBtn" style="display: none;">
+              <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+          </div>
+        </div>
+
+        <!-- Alternative Options Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content text-center">
+            <h2 class="card-title">Alternative Staking Options</h2>
+            <p class="text-secondary mb-3">Explore other apps to stake your Tezos</p>
+            <ul class="list-unstyled d-flex flex-column align-items-center mt-3 mb-0">
+              <li class="mb-2"><a href="https://gov.tez.capital" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">gov.tez.capital</a></li>
+              <li><a href="https://stake.tezos.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">stake.tezos.com</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tools Card -->
+        <div class="app-card">
+          <div class="card-top"></div>
+          <div class="card-content text-center">
+            <h2 class="card-title">Chad Tools</h2>
+            <p class="text-secondary mb-3">Explore the TezosX ecosystem</p>
+            <ul class="list-unstyled d-flex flex-column align-items-center mt-3 mb-0">
+              <li class="mb-2"><a href="https://up.tez.cool" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">TezCalm</a></li>
+              <li class="mb-2"><a href="https://tez.cool/map" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">ChadMap</a></li>
+              <li><a href="https://trollbox.tez.cool" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">TezTrollbox</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 ChadStake - Tezos Staking Assistant. All chads reserved.</p>
+    </div>
+  </footer>
+  <script src="js/purify.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/walletbeacon.min.js"></script>
+  <script src="js/main.js?v=2.0"></script>
+</body>
+</html>
