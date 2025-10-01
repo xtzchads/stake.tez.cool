@@ -10,6 +10,33 @@ let currentPage = 1;
 let entriesPerPage = 25;
 let totalBakers = 0;
 
+function setMaxAmount() {
+  const amountInput = document.getElementById('amountInput');
+  const walletInfoDiv = document.getElementById('walletInfo');
+  
+  if (!permissions?.address || walletInfoDiv.style.display === 'none') {
+    showNotification('Please connect your wallet first', true);
+    return;
+  }
+  
+  const badges = walletInfoDiv.querySelectorAll('.badge');
+  let balance = 0;
+  
+  badges.forEach(badge => {
+    if (badge.textContent.includes('Balance:')) {
+      const balanceText = badge.textContent.replace('Balance:', '').replace('ꜩ', '').trim();
+      balance = parseFloat(balanceText);
+    }
+  });
+  
+  if (balance > 0) {
+    const maxAmount = Math.max(0, balance - 0.1);
+    amountInput.value = maxAmount.toFixed(6);
+  } else {
+    showNotification('No balance available', true);
+  }
+}
+
 function changeEntriesPerPage() {
   entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
   currentPage = 1;
