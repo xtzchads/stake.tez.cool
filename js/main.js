@@ -458,8 +458,36 @@ async function disconnectWallet() {
 function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, baker) {
    const walletInfoDiv = document.getElementById('walletInfo');
    const found = allBakers.find(bakerdata => bakerdata.address === baker?.address);
-   document.getElementById('staking').style.display='block';
-   walletInfoDiv.innerHTML = `<span class="badge bg-secondary">${address}</span><span class="badge bg-primary">Balance: ${balance / 1000000} &#xA729;</span><span class="badge bg-primary">Staked: ${stakedBalance / 1000000} &#xA729;</span><span class="badge bg-primary">Unstaked: ${unstakedBalance / 1000000} &#xA729;</span><span class="badge ${baker?.address?(found?"bg-success":"bg-warning"):"bg-danger"}">Baker: ${found?"<a href=\"https://tzkt.io/"+found.address+"\" target=\"_blank\" style=\"color:white\" rel=\"noopener noreferrer\">"+found.name+"</a>":baker?.address}</span>`;
+   document.getElementById('staking').style.display='flex';
+   
+   const shortAddress = `${address.slice(0, 7)}...${address.slice(-4)}`;
+   const bakerClass = baker?.address ? (found ? "" : "warning") : "danger";
+   const bakerText = found ? found.name : (baker?.address || "No baker selected");
+   const bakerLink = found ? `<a href="https://tzkt.io/${found.address}" target="_blank" rel="noopener noreferrer">${DOMPurify.sanitize(found.name)}</a>` : DOMPurify.sanitize(bakerText);
+   
+   walletInfoDiv.innerHTML = `
+     <div class="wallet-address" title="${DOMPurify.sanitize(address)}">${DOMPurify.sanitize(shortAddress)}</div>
+     
+     <div class="wallet-stat">
+       <span class="wallet-stat-label">Balance</span>
+       <span class="wallet-stat-value">${(balance / 1000000).toFixed(2)} ꜩ</span>
+     </div>
+     
+     <div class="wallet-stat">
+       <span class="wallet-stat-label">Staked</span>
+       <span class="wallet-stat-value">${(stakedBalance / 1000000).toFixed(2)} ꜩ</span>
+     </div>
+     
+     <div class="wallet-stat">
+       <span class="wallet-stat-label">Unstaked</span>
+       <span class="wallet-stat-value">${(unstakedBalance / 1000000).toFixed(2)} ꜩ</span>
+     </div>
+     
+     <div class="wallet-baker ${bakerClass}">
+       <span class="wallet-stat-label">Baker</span>
+       <span class="wallet-baker-value">${bakerLink}</span>
+     </div>
+   `;
 }
 
 
