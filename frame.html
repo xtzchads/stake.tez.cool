@@ -742,6 +742,99 @@
   width: 100%;
   max-width: 600px;
 }
+/* Wallet Section Styles */
+#walletInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.wallet-stat {
+  background: rgba(162, 124, 238, 0.08);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.wallet-stat:hover {
+  background: rgba(162, 124, 238, 0.12);
+  transform: translateX(4px);
+}
+
+.wallet-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wallet-stat-value {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.wallet-address {
+  background: var(--primary-gradient);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: center;
+  word-break: break-all;
+  box-shadow: 0 4px 12px rgba(162, 124, 238, 0.3);
+}
+
+.wallet-baker {
+  background: rgba(46, 213, 115, 0.1);
+  border: 1px solid rgba(46, 213, 115, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallet-baker.warning {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.wallet-baker.danger {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+.wallet-baker-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.wallet-baker-value {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  flex: 1;
+}
+
+.wallet-baker-value a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.wallet-baker-value a:hover {
+  color: var(--colorful);
+}
   </style>
 </head>
 
@@ -762,7 +855,9 @@
 <div class="app-card" id="staking" style="display: none;">
   <div class="card-content" id="staking-body">
     <div class="staking-wrapper-outer">
-      <h2 class="">Manage Your Stake</h2>
+      <h2 class="card-title">Manage Your Stake</h2>
+      <p class="mb-4 text-secondary">Adjust your delegation amount with your current baker</p>
+      
       <div class="staking-input-wrapper">
         <div class="amount-input-container">
           <label for="amountInput" class="input-label">Amount (XTZ)</label>
@@ -844,19 +939,19 @@
       <div class="col-lg-4">
         <!-- Wallet Card -->
         <div class="app-card" id="wallet">
-          <div class="card-content">
-            <h2 class="card-title">Your Wallet</h2>
-            <div class="text-center mb-3" id="walletInfo" style="display:none">
-              <!-- Wallet info will be inserted here -->
-            </div>
-            <button class="btn btn-outline-danger w-100" onclick="disconnectWallet()" id="disconnectWalletBtn" style="display: none;">
-              <i class="fas fa-sign-out-alt"></i> Disconnect Wallet
-            </button>
-            <button class="btn btn-outline-primary w-100" onclick="connectWallet()" id="connectWalletBtn" style="display: none;">
-              <i class="fas fa-wallet"></i> Connect Wallet
-            </button>
-          </div>
-        </div>
+  <div class="card-content">
+    <h2 class="card-title">Your Wallet</h2>
+    <div id="walletInfo" style="display:none">
+      <!-- Wallet info will be inserted here -->
+    </div>
+    <button class="btn btn-outline-danger w-100" onclick="disconnectWallet()" id="disconnectWalletBtn" style="display: none;">
+      <i class="fas fa-sign-out-alt"></i> Disconnect Wallet
+    </button>
+    <button class="btn btn-outline-primary w-100" onclick="connectWallet()" id="connectWalletBtn" style="display: none;">
+      <i class="fas fa-wallet"></i> Connect Wallet
+    </button>
+  </div>
+</div>
 
         <!-- Alternative Options Card -->
         <div class="app-card">
@@ -876,6 +971,6 @@
   <script src="js/purify.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/walletbeacon.min.js"></script>
-  <script src="js/main.js?v=2.5"></script>
+  <script src="js/main.js?v=2.3"></script>
 </body>
 </html>
