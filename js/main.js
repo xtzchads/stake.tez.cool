@@ -176,7 +176,7 @@ async function fetchDelegateData() {
          }
       });
 
-      allBakers.sort((a, b) => b.edgeOfBakingOverStaking - a.edgeOfBakingOverStaking);
+      allBakers.sort((a, b) => a.edgeOfBakingOverStaking.slice(0, -1) - b.edgeOfBakingOverStaking.slice(0, -1));
       promoted.forEach(promotedAddress => {
    	 let specialAddressIndex = allBakers.findIndex(delegate => delegate.address === promotedAddress);
   	 if (specialAddressIndex !== -1) {
