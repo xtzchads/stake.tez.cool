@@ -471,17 +471,17 @@ function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, bak
      
      <div class="wallet-stat">
        <span class="wallet-stat-label">Balance</span>
-       <span class="wallet-stat-value">${(balance / 1000000).toFixed(2)} ꜩ</span>
+       <span class="wallet-stat-value">${(balance / 1000000).toFixed(6)} ꜩ</span>
      </div>
      
      <div class="wallet-stat">
        <span class="wallet-stat-label">Staked</span>
-       <span class="wallet-stat-value">${(stakedBalance / 1000000).toFixed(2)} ꜩ</span>
+       <span class="wallet-stat-value">${(stakedBalance / 1000000).toFixed(6)} ꜩ</span>
      </div>
      
      <div class="wallet-stat">
        <span class="wallet-stat-label">Unstaked</span>
-       <span class="wallet-stat-value">${(unstakedBalance / 1000000).toFixed(2)} ꜩ</span>
+       <span class="wallet-stat-value">${(unstakedBalance / 1000000).toFixed(6)} ꜩ</span>
      </div>
      
      <div class="wallet-baker ${bakerClass}">
