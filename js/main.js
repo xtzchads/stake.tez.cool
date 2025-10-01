@@ -458,7 +458,7 @@ async function disconnectWallet() {
 function displayWalletInfo(address, balance, stakedBalance, unstakedBalance, baker) {
    const walletInfoDiv = document.getElementById('walletInfo');
    const found = allBakers.find(bakerdata => bakerdata.address === baker?.address);
-   document.getElementById('staking').style.display='flex';
+   document.getElementById('staking').style.display='block';
    
    const shortAddress = `${address.slice(0, 7)}...${address.slice(-4)}`;
    const bakerClass = baker?.address ? (found ? "" : "warning") : "danger";
