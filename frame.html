@@ -584,6 +584,164 @@
   color: var(--text-primary);
   padding: 4px 8px;
 }
+
+.staking-wrapper-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.staking-input-wrapper {
+  background: rgba(162, 124, 238, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  width: 100%;
+  max-width: 600px;
+}
+
+.amount-input-container {
+  margin-bottom: var(--spacing-md);
+}
+
+.input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-with-max {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.stake-input {
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 16px 80px 16px 20px;
+  text-align: left;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.stake-input:focus {
+  border-color: #a27cee;
+  box-shadow: 0 0 0 4px rgba(162, 124, 238, 0.15);
+  transform: translateY(-2px);
+}
+
+.max-btn {
+  position: absolute;
+  right: 12px;
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.max-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(162, 124, 238, 0.4);
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+}
+
+.stake-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-sm);
+  transition: all 0.3s ease;
+  min-height: 80px;
+}
+
+.stake-action-btn i {
+  font-size: 1.5rem;
+}
+
+.stake-action-btn:hover:not(:disabled) {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.stake-action-btn:active:not(:disabled) {
+  transform: translateY(-1px) scale(0.98);
+}
+
+@media (max-width: 767px) {
+  .staking-input-wrapper {
+    padding: var(--spacing-md);
+  }
+  
+  .stake-input {
+    font-size: 1.25rem;
+    padding: 14px 70px 14px 16px;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .stake-action-btn {
+    flex-direction: row;
+    min-height: 60px;
+  }
+}
+
+#staking-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staking-wrapper-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staking-wrapper-outer h2,
+.staking-wrapper-outer > p {
+  align-self: flex-start;
+  width: 100%;
+}
+
+.staking-input-wrapper {
+  background: rgba(162, 124, 238, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  width: 100%;
+  max-width: 600px;
+}
   </style>
 </head>
 
@@ -601,37 +759,41 @@
       <!-- Main column - Staking and Baker List -->
       <div class="col-lg-8">
         <!-- Staking Card -->
-        <div class="app-card" id="staking" style="display:none">
-          <div class="card-content" id="staking-body">
-            <h2 class="card-title">Stake or Unstake</h2>
-            <p class="mb-4 text-secondary">Manage your tez with your current baker</p>
-            
-            <div class="row align-items-center mt-4">
-              <div class="col-md-1"></div>
-              <div class="col-md-4 mb-3">
-                <input type="number" class="form-control" id="amountInput" placeholder="Amount" onkeydown="return event.keyCode !== 69">
-              </div>
-              <div class="col-md-2 mb-3">
-                <button class="btn btn-primary w-100" id="stake" onclick="stakeTez()">
-                  <i class="fas fa-arrow-right"></i> Stake
-                </button>
-              </div>
-              <div class="col-md-2 mb-3">
-                <button class="btn btn-secondary w-100" id="unstake" onclick="unstakeTez()">
-                  <i class="fas fa-arrow-left"></i> Unstake
-                </button>
-              </div>
-              <!--<div class="col-md-2 mb-3">
-                <button class="btn btn-secondary w-100" onclick="finalunstakeTez()" id="finalize" disabled>
-                  <i class="fas fa-check"></i> Finalize
-                </button>
-              </div>-->
-              <div class="col-md-1"></div>
-            </div>
+<div class="app-card" id="staking" style="display: none;">
+  <div class="card-content" id="staking-body">
+    <div class="staking-wrapper-outer">
+      <h2 class="card-title">Manage Your Stake</h2>
+      <p class="mb-4 text-secondary">Adjust your delegation amount with your current baker</p>
+      
+      <div class="staking-input-wrapper">
+        <div class="amount-input-container">
+          <label for="amountInput" class="input-label">Amount (XTZ)</label>
+          <div class="input-with-max">
+            <input 
+              type="number" 
+              class="form-control stake-input" 
+              id="amountInput" 
+              placeholder="0.00" 
+              onkeydown="return event.keyCode !== 69"
+            >
+            <button class="max-btn" onclick="setMaxAmount()">MAX</button>
           </div>
         </div>
-
-        <!-- Available Bakers Card -->
+        
+        <div class="action-buttons">
+          <button class="btn btn-primary stake-action-btn" id="stake" onclick="stakeTez()">
+            <i class="fas fa-arrow-up"></i>
+            <span>Stake</span>
+          </button>
+          <button class="btn btn-secondary stake-action-btn" id="unstake" onclick="unstakeTez()">
+            <i class="fas fa-arrow-down"></i>
+            <span>Unstake</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
         <div class="app-card">
           <div class="card-content">
             <div class="row mb-3">
@@ -661,7 +823,6 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Table content will be dynamically populated -->
     </tbody>
   </table>
   <div class="pagination-container">
