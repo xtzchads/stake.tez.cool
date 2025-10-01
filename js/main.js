@@ -13,18 +13,19 @@ let totalBakers = 0;
 function setMaxAmount() {
   const amountInput = document.getElementById('amountInput');
   const walletInfoDiv = document.getElementById('walletInfo');
-  
   if (!permissions?.address || walletInfoDiv.style.display === 'none') {
     showNotification('Please connect your wallet first', true);
     return;
   }
-  
-  const badges = walletInfoDiv.querySelectorAll('.badge');
+  const walletStats = walletInfoDiv.querySelectorAll('.wallet-stat');
   let balance = 0;
   
-  badges.forEach(badge => {
-    if (badge.textContent.includes('Balance:')) {
-      const balanceText = badge.textContent.replace('Balance:', '').replace('ꜩ', '').trim();
+  walletStats.forEach(stat => {
+    const label = stat.querySelector('.wallet-stat-label');
+    const value = stat.querySelector('.wallet-stat-value');
+    
+    if (label && label.textContent.trim() === 'Balance' && value) {
+      const balanceText = value.textContent.replace('ꜩ', '').trim();
       balance = parseFloat(balanceText);
     }
   });
