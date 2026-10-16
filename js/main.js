@@ -53,9 +53,6 @@ function escapeHtml(str) {
 }
 
 function sanitizeText(str) {
-  if (typeof DOMPurify !== 'undefined') {
-    return DOMPurify.sanitize(String(str || ''));
-  }
   return escapeHtml(str);
 }
 
@@ -881,7 +878,7 @@ async function checkActiveSession() {
         isWatchOnly: false
       };
       displayWalletInfo(
-        sanitizeText(activeAccount.address),
+        activeAccount.address,
         balance,
         stakedBalance,
         unstakedBalance,
@@ -965,7 +962,7 @@ async function inspectCustomAddress() {
     const walletEmptyDiv = document.getElementById('walletEmptyState');
     if (walletEmptyDiv) walletEmptyDiv.style.display = 'none';
 
-    displayWalletInfo(sanitizeText(addr), balance, stakedBalance, unstakedBalance, delegate);
+    displayWalletInfo(addr, balance, stakedBalance, unstakedBalance, delegate);
     renderBakerTable();
     showNotification(`Loaded staking profile for ${shortenAddress(addr)}`);
   } catch (err) {
