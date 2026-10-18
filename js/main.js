@@ -374,18 +374,22 @@ function renderBakerTable() {
     cell4.style.textAlign = 'right';
     if (isCurrentBaker && !currentAccountState.isWatchOnly) {
       cell4.innerHTML = `
-        <button type="button" class="btn-select-baker active-baker" onclick="delegateTez('${safeAddr}', this)" title="Already delegated to this baker">
+        <button type="button" class="btn-select-baker active-baker" data-delegate-addr="${safeAddr}" title="Already delegated to this baker">
           <i class="fa-solid fa-check"></i>
           <span>Active</span>
         </button>
       `;
     } else {
       cell4.innerHTML = `
-        <button type="button" class="btn-select-baker" onclick="delegateTez('${safeAddr}', this)">
+        <button type="button" class="btn-select-baker" data-delegate-addr="${safeAddr}">
           <i class="fa-solid fa-hand-pointer"></i>
           <span>Select</span>
         </button>
       `;
+    }
+    const selectBtn = cell4.querySelector('.btn-select-baker');
+    if (selectBtn) {
+      selectBtn.addEventListener('click', () => delegateTez(delegate.address, selectBtn));
     }
   });
 }
