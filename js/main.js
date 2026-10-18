@@ -1,7 +1,9 @@
 let allBakers = [];
 let filteredBakers = [];
 let client = new beacon.DAppClient({
-  name: 'Staking Assistant'
+  name: 'Staking Assistant',
+  network: { type: beacon.NetworkType.MAINNET },
+  preferredNetwork: beacon.NetworkType.MAINNET
 });
 let flag = false;
 let permissions = null;
@@ -915,7 +917,11 @@ async function checkActiveSession() {
 }
 
 async function disconnectWallet() {
-  await client.clearActiveAccount();
+  if (typeof client.disconnect === 'function') {
+    await client.disconnect();
+  } else {
+    await client.clearActiveAccount();
+  }
   const walletInfoDiv = document.getElementById('walletInfo');
   if (walletInfoDiv) {
     walletInfoDiv.innerHTML = '';
